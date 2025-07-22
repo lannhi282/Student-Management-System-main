@@ -2,8 +2,9 @@
 session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
-if (strlen($_SESSION['teachermsaid'] == 0)) {
-    header('location:logout.php');
+if (!isset($_SESSION['teachermsaid']) || strlen($_SESSION['teachermsaid']) == 0) {
+    header('location:login.php');
+    exit();
 } else {
 ?>
     <!DOCTYPE html>

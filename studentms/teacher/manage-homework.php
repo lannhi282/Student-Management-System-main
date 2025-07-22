@@ -2,15 +2,39 @@
 session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
-if (strlen($_SESSION['teachermsaid'] == 0)) {
+if (strlen($_SESSION['teachermsaid']) == 0) {
     header('location:logout.php');
 } else {
+    if (isset($_GET['del'])) {
+        $rid = intval($_GET['del']);
+        $teacher_id = $_SESSION['teachermsaid'];
+
+        // Verify teacher has access to this homework
+        $verify_sql = "SELECT h.id FROM tblhomework h 
+                       INNER JOIN tblteacherclass tc ON h.classId = tc.ClassID 
+                       WHERE h.id=:rid AND tc.TeacherID=:teacher_id";
+        $verify_query = $dbh->prepare($verify_sql);
+        $verify_query->bindParam(':rid', $rid, PDO::PARAM_STR);
+        $verify_query->bindParam(':teacher_id', $teacher_id, PDO::PARAM_STR);
+        $verify_query->execute();
+
+        if ($verify_query->rowCount() > 0) {
+            $sql = "DELETE FROM tblhomework WHERE ID=:rid";
+            $query = $dbh->prepare($sql);
+            $query->bindParam(':rid', $rid, PDO::PARAM_STR);
+            $query->execute();
+            echo "<script>alert('Data deleted');</script>";
+            echo "<script>window.location.href = 'manage-homework.php'</script>";
+        } else {
+            echo "<script>alert('Access Denied');</script>";
+        }
+    }
 ?>
     <!DOCTYPE html>
     <html lang="en">
 
     <head>
-        <title>Teacher Management System|| My Classes</title>
+        <title>Teacher Management System|| Manage Homework</title>
         <link rel="stylesheet" href="vendors/simple-line-icons/css/simple-line-icons.css">
         <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
         <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
@@ -25,11 +49,11 @@ if (strlen($_SESSION['teachermsaid'] == 0)) {
                 <div class="main-panel">
                     <div class="content-wrapper">
                         <div class="page-header">
-                            <h3 class="page-title">My Classes</h3>
+                            <h3 class="page-title">Manage Homework</h3>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">My Classes</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Manage Homework</li>
                                 </ol>
                             </nav>
                         </div>
@@ -38,31 +62,36 @@ if (strlen($_SESSION['teachermsaid'] == 0)) {
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="d-sm-flex align-items-center mb-4">
-                                            <h4 class="card-title mb-sm-0">My Classes</h4>
+                                            <h4 class="card-title mb-sm-0">Manage Homework</h4>
+                                            <div class="ml-auto">
+                                                <a href="add-homework.php" class="btn btn-primary">Add New Homework</a>
+                                            </div>
                                         </div>
                                         <div class="table-responsive border rounded p-1">
                                             <table class="table">
                                                 <thead>
                                                     <tr>
                                                         <th class="font-weight-bold">S.No</th>
-                                                        <th class="font-weight-bold">Class Name</th>
+                                                        <th class="font-weight-bold">Homework Title</th>
+                                                        <th class="font-weight-bold">Class</th>
                                                         <th class="font-weight-bold">Section</th>
-                                                        <th class="font-weight-bold">Total Students</th>
+                                                        <th class="font-weight-bold">Last Date of Submission</th>
+                                                        <th class="font-weight-bold">Posting Date</th>
                                                         <th class="font-weight-bold">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                    $teacherid = $_SESSION['teachermsaid'];
-                                                    $sql = "SELECT c.ID, c.ClassName, c.Section, 
-                                COUNT(s.ID) as total_students
-                                FROM tblclass c 
-                                JOIN tblteacherclass tc ON c.ID = tc.ClassId 
-                                LEFT JOIN tblstudent s ON c.ID = s.StudentClass 
-                                WHERE tc.TeacherId = :teacherid 
-                                GROUP BY c.ID, c.ClassName, c.Section";
+                                                    $teacher_id = $_SESSION['teachermsaid'];
+                                                    $sql = "SELECT tblclass.ID, tblclass.ClassName, tblclass.Section, 
+                                                           tblhomework.homeworkTitle, tblhomework.postingDate, 
+                                                           tblhomework.lastDateofSubmission, tblhomework.id as hwid 
+                                                           FROM tblhomework 
+                                                           JOIN tblclass ON tblclass.ID = tblhomework.classId 
+                                                           JOIN tblteacherclass ON tblclass.ID = tblteacherclass.ClassID
+                                                           WHERE tblteacherclass.TeacherID = :teacher_id";
                                                     $query = $dbh->prepare($sql);
-                                                    $query->bindParam(':teacherid', $teacherid, PDO::PARAM_STR);
+                                                    $query->bindParam(':teacher_id', $teacher_id, PDO::PARAM_STR);
                                                     $query->execute();
                                                     $results = $query->fetchAll(PDO::FETCH_OBJ);
 
@@ -72,18 +101,23 @@ if (strlen($_SESSION['teachermsaid'] == 0)) {
                                                     ?>
                                                             <tr>
                                                                 <td><?php echo htmlentities($cnt); ?></td>
+                                                                <td><?php echo htmlentities($row->homeworkTitle); ?></td>
                                                                 <td><?php echo htmlentities($row->ClassName); ?></td>
                                                                 <td><?php echo htmlentities($row->Section); ?></td>
-                                                                <td><?php echo htmlentities($row->total_students); ?></td>
+                                                                <td><?php echo htmlentities($row->lastDateofSubmission); ?></td>
+                                                                <td><?php echo htmlentities($row->postingDate); ?></td>
                                                                 <td>
-                                                                    <a href="view-students.php?classid=<?php echo htmlentities($row->ID); ?>" class="btn btn-info btn-xs">View Students</a>
+                                                                    <div>
+                                                                        <a href="edit-homework.php?hwid=<?php echo htmlentities($row->hwid); ?>" class="btn btn-primary btn-sm">Edit</a>
+                                                                        <a href="manage-homework.php?del=<?php echo htmlentities($row->hwid); ?>" onclick="return confirm('Do you really want to Delete ?');" class="btn btn-danger btn-sm">Delete</a>
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         <?php $cnt = $cnt + 1;
                                                         }
                                                     } else { ?>
                                                         <tr>
-                                                            <td colspan="5" style="color:red; text-align:center;">No Classes Assigned</td>
+                                                            <td colspan="7" style="color:red; text-align:center;">No Homework Found</td>
                                                         </tr>
                                                     <?php } ?>
                                                 </tbody>
@@ -103,4 +137,5 @@ if (strlen($_SESSION['teachermsaid'] == 0)) {
         <script src="js/misc.js"></script>
     </body>
 
-    </html><?php } ?>
+    </html>
+<?php } ?>

@@ -46,16 +46,16 @@ if (isset($_POST['login'])) {
 <head>
     <title>Student Management System || Teacher Login</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="../admin/vendors/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="../admin/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="../admin/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="../admin/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
 
@@ -107,13 +107,13 @@ if (isset($_POST['login'])) {
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
-    <script src="../admin/vendors/js/vendor.bundle.base.js"></script>
+    <script src="vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
     <!-- End plugin js for this page -->
     <!-- inject:js -->
-    <script src="../admin/js/off-canvas.js"></script>
-    <script src="../admin/js/misc.js"></script>
+    <script src="js/off-canvas.js"></script>
+    <script src="js/misc.js"></script>
     <!-- endinject -->
 </body>
 

@@ -15,9 +15,7 @@
             <a class="nav-link d-block" href="dashboard.php">
                 <img class="sidebar-brand-logo" src="" alt="" />
                 <img class="sidebar-brand-logomini" src="" alt="" />
-                <div class="small font-weight-light pt-1">Teacher Panel</div>
             </a>
-
         </li>
         <li class="nav-item">
             <a class="nav-link" href="dashboard.php">

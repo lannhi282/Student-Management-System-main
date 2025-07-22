@@ -5,30 +5,12 @@ include('includes/dbconnection.php');
 if (strlen($_SESSION['teachermsaid']) == 0) {
     header('location:logout.php');
 } else {
-    $classid = intval($_GET['classid']);
-    $teacherid = $_SESSION['teachermsaid'];
-
-    // Verify teacher has access to this class
-    $verify_sql = "SELECT c.ClassName, c.Section FROM tblclass c 
-                 JOIN tblteacherclass tc ON c.ID = tc.ClassId 
-                 WHERE c.ID = :classid AND tc.TeacherId = :teacherid";
-    $verify_query = $dbh->prepare($verify_sql);
-    $verify_query->bindParam(':classid', $classid, PDO::PARAM_STR);
-    $verify_query->bindParam(':teacherid', $teacherid, PDO::PARAM_STR);
-    $verify_query->execute();
-
-    if ($verify_query->rowCount() == 0) {
-        echo "<script>alert('Access Denied!');</script>";
-        echo "<script>window.location.href='my-classes.php'</script>";
-        exit;
-    }
-    $class_info = $verify_query->fetch(PDO::FETCH_OBJ);
 ?>
     <!DOCTYPE html>
     <html lang="en">
 
     <head>
-        <title>Teacher Management System|| View Students</title>
+        <title>Teacher Management System|| My Homework</title>
         <link rel="stylesheet" href="../admin/vendors/simple-line-icons/css/simple-line-icons.css">
         <link rel="stylesheet" href="../admin/vendors/flag-icon-css/css/flag-icon.min.css">
         <link rel="stylesheet" href="../admin/vendors/css/vendor.bundle.base.css">
@@ -43,12 +25,11 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
                 <div class="main-panel">
                     <div class="content-wrapper">
                         <div class="page-header">
-                            <h3 class="page-title">Students in Class <?php echo htmlentities($class_info->ClassName . ' - ' . $class_info->Section); ?></h3>
+                            <h3 class="page-title">My Homework</h3>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="my-classes.php">My Classes</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">View Students</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Homework</li>
                                 </ol>
                             </nav>
                         </div>
@@ -57,27 +38,33 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="d-sm-flex align-items-center mb-4">
-                                            <h4 class="card-title mb-sm-0">Students List</h4>
+                                            <h4 class="card-title mb-sm-0">Homework Assignments</h4>
                                         </div>
                                         <div class="table-responsive border rounded p-1">
                                             <table class="table">
                                                 <thead>
                                                     <tr>
                                                         <th class="font-weight-bold">S.No</th>
-                                                        <th class="font-weight-bold">Student Name</th>
-                                                        <th class="font-weight-bold">Student Email</th>
-                                                        <th class="font-weight-bold">Contact Number</th>
-                                                        <th class="font-weight-bold">Registration Date</th>
+                                                        <th class="font-weight-bold">Class</th>
+                                                        <th class="font-weight-bold">Subject</th>
+                                                        <th class="font-weight-bold">Homework Title</th>
+                                                        <th class="font-weight-bold">Description</th>
+                                                        <th class="font-weight-bold">Submission Date</th>
+                                                        <th class="font-weight-bold">Creation Date</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                    $sql = "SELECT StudentName, StudentEmail, MobileNumber, DateofAdmission 
-                                FROM tblstudent 
-                                WHERE StudentClass = :classid 
-                                ORDER BY StudentName";
+                                                    $teacherid = $_SESSION['teachermsaid'];
+                                                    $sql = "SELECT h.ID, h.HomeworkTitle, h.Subject, h.Description, h.SubmissionDate, h.CreationDate,
+                                                       c.ClassName, c.Section
+                                                       FROM tblhomework h 
+                                                       JOIN tblclass c ON h.ClassId = c.ID 
+                                                       JOIN tblteacherclass tc ON c.ID = tc.ClassId 
+                                                       WHERE tc.TeacherId = :teacherid 
+                                                       ORDER BY h.CreationDate DESC";
                                                     $query = $dbh->prepare($sql);
-                                                    $query->bindParam(':classid', $classid, PDO::PARAM_STR);
+                                                    $query->bindParam(':teacherid', $teacherid, PDO::PARAM_STR);
                                                     $query->execute();
                                                     $results = $query->fetchAll(PDO::FETCH_OBJ);
 
@@ -87,16 +74,18 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
                                                     ?>
                                                             <tr>
                                                                 <td><?php echo htmlentities($cnt); ?></td>
-                                                                <td><?php echo htmlentities($row->StudentName); ?></td>
-                                                                <td><?php echo htmlentities($row->StudentEmail); ?></td>
-                                                                <td><?php echo htmlentities($row->MobileNumber); ?></td>
-                                                                <td><?php echo htmlentities($row->DateofAdmission); ?></td>
+                                                                <td><?php echo htmlentities($row->ClassName . ' - ' . $row->Section); ?></td>
+                                                                <td><?php echo htmlentities($row->Subject); ?></td>
+                                                                <td><?php echo htmlentities($row->HomeworkTitle); ?></td>
+                                                                <td><?php echo htmlentities($row->Description); ?></td>
+                                                                <td><?php echo htmlentities($row->SubmissionDate); ?></td>
+                                                                <td><?php echo htmlentities($row->CreationDate); ?></td>
                                                             </tr>
                                                         <?php $cnt = $cnt + 1;
                                                         }
                                                     } else { ?>
                                                         <tr>
-                                                            <td colspan="5" style="color:red; text-align:center;">No Students Found</td>
+                                                            <td colspan="7" style="color:red; text-align:center;">No Homework Found</td>
                                                         </tr>
                                                     <?php } ?>
                                                 </tbody>
