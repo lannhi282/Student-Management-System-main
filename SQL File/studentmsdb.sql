@@ -47,6 +47,49 @@ INSERT INTO `tbladmin` (`ID`, `AdminName`, `UserName`, `MobileNumber`, `Email`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tblteacher`
+--
+
+CREATE TABLE `tblteacher` (
+  `ID` int(10) NOT NULL,
+  `TeacherName` varchar(120) DEFAULT NULL,
+  `UserName` varchar(120) DEFAULT NULL,
+  `MobileNumber` bigint(10) DEFAULT NULL,
+  `Email` varchar(200) DEFAULT NULL,
+  `Password` varchar(200) DEFAULT NULL,
+  `TeacherRegdate` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `tblteacher`
+--
+
+INSERT INTO `tblteacher` (`ID`, `TeacherName`, `UserName`, `MobileNumber`, `Email`, `Password`, `TeacherRegdate`) VALUES
+(1, 'Teacher Demo', 'teacher1', 8979555559, 'teacher@gmail.com', 'f925916e2754e5e03f75dd58a5733251', '2025-01-04 04:36:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblteacherclass`
+--
+
+CREATE TABLE `tblteacherclass` (
+  `ID` int(10) NOT NULL,
+  `TeacherID` int(10) DEFAULT NULL,
+  `ClassID` int(10) DEFAULT NULL,
+  `AssignDate` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `tblteacherclass`
+--
+
+INSERT INTO `tblteacherclass` (`ID`, `TeacherID`, `ClassID`, `AssignDate`) VALUES
+(1, 1, 1, '2025-01-04 04:36:52');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tblclass`
 --
 
@@ -234,6 +277,20 @@ ALTER TABLE `tbladmin`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indexes for table `tblteacher`
+--
+ALTER TABLE `tblteacher`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tblteacherclass`
+--
+ALTER TABLE `tblteacherclass`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `TeacherID` (`TeacherID`),
+  ADD KEY `ClassID` (`ClassID`);
+
+--
 -- Indexes for table `tblclass`
 --
 ALTER TABLE `tblclass`
@@ -283,6 +340,18 @@ ALTER TABLE `tbluploadedhomeworks`
 -- AUTO_INCREMENT for table `tbladmin`
 --
 ALTER TABLE `tbladmin`
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tblteacher`
+--
+ALTER TABLE `tblteacher`
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tblteacherclass`
+--
+ALTER TABLE `tblteacherclass`
   MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --

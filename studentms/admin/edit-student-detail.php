@@ -2,47 +2,41 @@
 session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
-if (strlen($_SESSION['sturecmsaid']==0)) {
+if (strlen($_SESSION['sturecmsaid'] == 0)) {
   header('location:logout.php');
-  } else{
-   if(isset($_POST['submit']))
-  {
- $stuname=$_POST['stuname'];
- $stuemail=$_POST['stuemail'];
- $stuclass=$_POST['stuclass'];
- $gender=$_POST['gender'];
- $dob=$_POST['dob'];
- $stuid=$_POST['stuid'];
- $fname=$_POST['fname'];
- $mname=$_POST['mname'];
- $connum=$_POST['connum'];
- $altconnum=$_POST['altconnum'];
- $address=$_POST['address'];
- $eid=$_GET['editid'];
-$sql="update tblstudent set StudentName=:stuname,StudentEmail=:stuemail,StudentClass=:stuclass,Gender=:gender,DOB=:dob,StuID=:stuid,FatherName=:fname,MotherName=:mname,ContactNumber=:connum,AltenateNumber=:altconnum,Address=:address where ID=:eid";
-$query=$dbh->prepare($sql);
-$query->bindParam(':stuname',$stuname,PDO::PARAM_STR);
-$query->bindParam(':stuemail',$stuemail,PDO::PARAM_STR);
-$query->bindParam(':stuclass',$stuclass,PDO::PARAM_STR);
-$query->bindParam(':gender',$gender,PDO::PARAM_STR);
-$query->bindParam(':dob',$dob,PDO::PARAM_STR);
-$query->bindParam(':stuid',$stuid,PDO::PARAM_STR);
-$query->bindParam(':fname',$fname,PDO::PARAM_STR);
-$query->bindParam(':mname',$mname,PDO::PARAM_STR);
-$query->bindParam(':connum',$connum,PDO::PARAM_STR);
-$query->bindParam(':altconnum',$altconnum,PDO::PARAM_STR);
-$query->bindParam(':address',$address,PDO::PARAM_STR);
-$query->bindParam(':eid',$eid,PDO::PARAM_STR);
- $query->execute();
-  echo '<script>alert("Student has been updated")</script>';
-}
+} else {
+  if (isset($_POST['submit'])) {
+    $stuname = $_POST['stuname'];
+    $stuemail = $_POST['stuemail'];
+    $stuclass = $_POST['stuclass'];
+    $gender = $_POST['gender'];
+    $dob = $_POST['dob'];
+    $stuid = $_POST['stuid'];
+    $connum = $_POST['connum'];
+    $address = $_POST['address'];
+    $eid = $_GET['editid'];
+    $sql = "update tblstudent set StudentName=:stuname,StudentEmail=:stuemail,StudentClass=:stuclass,Gender=:gender,DOB=:dob,StuID=:stuid,ContactNumber=:connum,Address=:address where ID=:eid";
+    $query = $dbh->prepare($sql);
+    $query->bindParam(':stuname', $stuname, PDO::PARAM_STR);
+    $query->bindParam(':stuemail', $stuemail, PDO::PARAM_STR);
+    $query->bindParam(':stuclass', $stuclass, PDO::PARAM_STR);
+    $query->bindParam(':gender', $gender, PDO::PARAM_STR);
+    $query->bindParam(':dob', $dob, PDO::PARAM_STR);
+    $query->bindParam(':stuid', $stuid, PDO::PARAM_STR);
+    $query->bindParam(':connum', $connum, PDO::PARAM_STR);
+    $query->bindParam(':address', $address, PDO::PARAM_STR);
+    $query->bindParam(':eid', $eid, PDO::PARAM_STR);
+    $query->execute();
+    echo '<script>alert("Student has been updated")</script>';
+  }
 
-  ?>
-<!DOCTYPE html>
-<html lang="en">
+?>
+  <!DOCTYPE html>
+  <html lang="en">
+
   <head>
-   
-    <title>Student  Management System|| Update Students</title>
+
+    <title>Student Management System|| Update Students</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="vendors/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
@@ -56,16 +50,17 @@ $query->bindParam(':eid',$eid,PDO::PARAM_STR);
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="css/style.css" />
-    
+
   </head>
+
   <body>
     <div class="container-scroller">
       <!-- partial:partials/_navbar.html -->
-     <?php include_once('includes/header.php');?>
+      <?php include_once('includes/header.php'); ?>
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_sidebar.html -->
-      <?php include_once('includes/sidebar.php');?>
+        <?php include_once('includes/sidebar.php'); ?>
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
@@ -79,113 +74,100 @@ $query->bindParam(':eid',$eid,PDO::PARAM_STR);
               </nav>
             </div>
             <div class="row">
-          
+
               <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title" style="text-align: center;">Update Students Details</h4>
-                   <hr/>
+                    <hr />
                     <form class="forms-sample" method="post" enctype="multipart/form-data">
                       <?php
-$eid=$_GET['editid'];
-$sql="SELECT tblstudent.StudentName,tblstudent.id as sid,tblstudent.StudentEmail,tblstudent.StudentClass,tblstudent.Gender,tblstudent.DOB,tblstudent.StuID,tblstudent.FatherName,tblstudent.MotherName,tblstudent.ContactNumber,tblstudent.AltenateNumber,tblstudent.Address,tblstudent.UserName,tblstudent.Password,tblstudent.Image,tblstudent.DateofAdmission,tblclass.ClassName,tblclass.Section from tblstudent join tblclass on tblclass.ID=tblstudent.StudentClass where tblstudent.ID=:eid";
-$query = $dbh -> prepare($sql);
-$query->bindParam(':eid',$eid,PDO::PARAM_STR);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $row)
-{               ?>
-    <div class="row">
-                       <div class="col-6">
+                      $eid = $_GET['editid'];
+                      $sql = "SELECT tblstudent.StudentName,tblstudent.id as sid,tblstudent.StudentEmail,tblstudent.StudentClass,tblstudent.Gender,tblstudent.DOB,tblstudent.StuID,tblstudent.ContactNumber,tblstudent.Address,tblstudent.UserName,tblstudent.Password,tblstudent.Image,tblstudent.DateofAdmission,tblclass.ClassName,tblclass.Section from tblstudent join tblclass on tblclass.ID=tblstudent.StudentClass where tblstudent.ID=:eid";
+                      $query = $dbh->prepare($sql);
+                      $query->bindParam(':eid', $eid, PDO::PARAM_STR);
+                      $query->execute();
+                      $results = $query->fetchAll(PDO::FETCH_OBJ);
+                      $cnt = 1;
+                      if ($query->rowCount() > 0) {
+                        foreach ($results as $row) {               ?>
+                          <div class="row">
+                            <div class="col-6">
                               <h4>Student details</h4>
-                      <hr />
-                      <div class="form-group">
-                        <label for="exampleInputName1">Student Name</label>
-                        <input type="text" name="stuname" value="<?php  echo htmlentities($row->StudentName);?>" class="form-control" required='true'>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputName1">Student Email</label>
-                        <input type="text" name="stuemail" value="<?php  echo htmlentities($row->StudentEmail);?>" class="form-control" required='true'>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputEmail3">Student Class</label>
-                        <select  name="stuclass" class="form-control" required='true'>
-                          <option value="<?php  echo htmlentities($row->StudentClass);?>"><?php  echo htmlentities($row->ClassName);?> <?php  echo htmlentities($row->Section);?></option>
-                         <?php 
+                              <hr />
+                              <div class="form-group">
+                                <label for="exampleInputName1">Student Name</label>
+                                <input type="text" name="stuname" value="<?php echo htmlentities($row->StudentName); ?>" class="form-control" required='true'>
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleInputName1">Student Email</label>
+                                <input type="text" name="stuemail" value="<?php echo htmlentities($row->StudentEmail); ?>" class="form-control" required='true'>
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleInputEmail3">Student Class</label>
+                                <select name="stuclass" class="form-control" required='true'>
+                                  <option value="<?php echo htmlentities($row->StudentClass); ?>"><?php echo htmlentities($row->ClassName); ?> <?php echo htmlentities($row->Section); ?></option>
+                                  <?php
 
-$sql2 = "SELECT * from    tblclass ";
-$query2 = $dbh -> prepare($sql2);
-$query2->execute();
-$result2=$query2->fetchAll(PDO::FETCH_OBJ);
+                                  $sql2 = "SELECT * from    tblclass ";
+                                  $query2 = $dbh->prepare($sql2);
+                                  $query2->execute();
+                                  $result2 = $query2->fetchAll(PDO::FETCH_OBJ);
 
-foreach($result2 as $row1)
-{          
-    ?>  
-<option value="<?php echo htmlentities($row1->ClassName);?><?php echo htmlentities($row1->Section);?>"><?php echo htmlentities($row1->ClassName);?> <?php echo htmlentities($row1->Section);?></option>
- <?php } ?> 
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputName1">Gender</label>
-                        <select name="gender" value="" class="form-control" required='true'>
-                          <option value="<?php  echo htmlentities($row->Gender);?>"><?php  echo htmlentities($row->Gender);?></option>
-                          <option value="Male">Male</option>
-                          <option value="Female">Female</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputName1">Date of Birth</label>
-                        <input type="date" name="dob" value="<?php  echo htmlentities($row->DOB);?>" class="form-control" required='true'>
-                      </div>
-                     
-                      <div class="form-group">
-                        <label for="exampleInputName1">Student ID</label>
-                        <input type="text" name="stuid" value="<?php  echo htmlentities($row->StuID);?>" class="form-control" readonly='true'>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputName1">Student Photo</label>
-                        <img src="images/<?php echo $row->Image;?>" width="100" height="100" value="<?php  echo $row->Image;?>"><a href="changeimage.php?editid=<?php echo $row->sid;?>"> &nbsp; Edit Image</a>
-                      </div>
-                    </div>
-                      <div class="col-6">
-                      <h4>Parents/Guardian's details</h4>
-                      <hr />
-                      <div class="form-group">
-                        <label for="exampleInputName1">Father's Name</label>
-                        <input type="text" name="fname" value="<?php  echo htmlentities($row->FatherName);?>" class="form-control" required='true'>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputName1">Mother's Name</label>
-                        <input type="text" name="mname" value="<?php  echo htmlentities($row->MotherName);?>" class="form-control" required='true'>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputName1">Contact Number</label>
-                        <input type="text" name="connum" value="<?php  echo htmlentities($row->ContactNumber);?>" class="form-control" required='true' maxlength="10" pattern="[0-9]+">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputName1">Alternate Contact Number</label>
-                        <input type="text" name="altconnum" value="<?php  echo htmlentities($row->AltenateNumber);?>" class="form-control" required='true' maxlength="10" pattern="[0-9]+">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputName1">Address</label>
-                        <textarea name="address" class="form-control" required='true'><?php  echo htmlentities($row->Address);?></textarea>
-                      </div>
-                  </div>
-</div>
-<h4>Login details</h4>
-<div class="form-group">
-                        <label for="exampleInputName1">User Name</label>
-                        <input type="text" name="uname" value="<?php  echo htmlentities($row->UserName);?>" class="form-control" readonly='true'>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputName1">Password</label>
-                        <input type="Password" name="password" value="<?php  echo htmlentities($row->Password);?>" class="form-control" readonly='true'>
-                      </div><?php $cnt=$cnt+1;}} ?>
+                                  foreach ($result2 as $row1) {
+                                  ?>
+                                    <option value="<?php echo htmlentities($row1->ClassName); ?><?php echo htmlentities($row1->Section); ?>"><?php echo htmlentities($row1->ClassName); ?> <?php echo htmlentities($row1->Section); ?></option>
+                                  <?php } ?>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleInputName1">Gender</label>
+                                <select name="gender" value="" class="form-control" required='true'>
+                                  <option value="<?php echo htmlentities($row->Gender); ?>"><?php echo htmlentities($row->Gender); ?></option>
+                                  <option value="Male">Male</option>
+                                  <option value="Female">Female</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleInputName1">Date of Birth</label>
+                                <input type="date" name="dob" value="<?php echo htmlentities($row->DOB); ?>" class="form-control" required='true'>
+                              </div>
+
+                              <div class="form-group">
+                                <label for="exampleInputName1">Student ID</label>
+                                <input type="text" name="stuid" value="<?php echo htmlentities($row->StuID); ?>" class="form-control" readonly='true'>
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleInputName1">Student Photo</label>
+                                <img src="images/<?php echo $row->Image; ?>" width="100" height="100" value="<?php echo $row->Image; ?>"><a href="changeimage.php?editid=<?php echo $row->sid; ?>"> &nbsp; Edit Image</a>
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <h4>Contact Information</h4>
+                              <hr />
+                              <div class="form-group">
+                                <label for="exampleInputName1">Contact Number</label>
+                                <input type="text" name="connum" value="<?php echo htmlentities($row->ContactNumber); ?>" class="form-control" required='true' maxlength="10" pattern="[0-9]+">
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleInputName1">Address</label>
+                                <textarea name="address" class="form-control" required='true'><?php echo htmlentities($row->Address); ?></textarea>
+                              </div>
+                            </div>
+                          </div>
+                          <h4>Login details</h4>
+                          <div class="form-group">
+                            <label for="exampleInputName1">User Name</label>
+                            <input type="text" name="uname" value="<?php echo htmlentities($row->UserName); ?>" class="form-control" readonly='true'>
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputName1">Password</label>
+                            <input type="Password" name="password" value="<?php echo htmlentities($row->Password); ?>" class="form-control" readonly='true'>
+                          </div><?php $cnt = $cnt + 1;
+                              }
+                            } ?>
                       <button type="submit" class="btn btn-primary mr-2" name="submit">Update</button>
-                     
+
                     </form>
                   </div>
                 </div>
@@ -194,7 +176,7 @@ foreach($result2 as $row1)
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
-         <?php include_once('includes/footer.php');?>
+          <?php include_once('includes/footer.php'); ?>
           <!-- partial -->
         </div>
         <!-- main-panel ends -->
@@ -218,4 +200,5 @@ foreach($result2 as $row1)
     <script src="js/select2.js"></script>
     <!-- End custom js for this page -->
   </body>
-</html><?php }  ?>
+
+  </html><?php }  ?>

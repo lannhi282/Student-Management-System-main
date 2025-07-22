@@ -27,3 +27,6 @@ Username: anujk3
 Password: Test@123
 
  Or Register a new Student/User.
+
+ Username: teacher1
+Password: Test@123
