@@ -10,8 +10,8 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
 
     // Verify teacher has access to this class
     $verify_sql = "SELECT c.ClassName, c.Section FROM tblclass c 
-                 JOIN tblteacherclass tc ON c.ID = tc.ClassId 
-                 WHERE c.ID = :classid AND tc.TeacherId = :teacherid";
+                 JOIN tblteacherclass tc ON c.ID = tc.ClassID 
+                 WHERE c.ID = :classid AND tc.TeacherID = :teacherid";
     $verify_query = $dbh->prepare($verify_sql);
     $verify_query->bindParam(':classid', $classid, PDO::PARAM_STR);
     $verify_query->bindParam(':teacherid', $teacherid, PDO::PARAM_STR);
@@ -29,21 +29,36 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
 
     <head>
         <title>Teacher Management System|| View Students</title>
-        <link rel="stylesheet" href="../admin/vendors/simple-line-icons/css/simple-line-icons.css">
-        <link rel="stylesheet" href="../admin/vendors/flag-icon-css/css/flag-icon.min.css">
-        <link rel="stylesheet" href="../admin/vendors/css/vendor.bundle.base.css">
-        <link rel="stylesheet" href="../admin/css/style.css">
+        <!-- plugins:css -->
+        <link rel="stylesheet" href="vendors/simple-line-icons/css/simple-line-icons.css">
+        <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
+        <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+        <!-- endinject -->
+        <!-- Plugin css for this page -->
+        <link rel="stylesheet" href="./vendors/daterangepicker/daterangepicker.css">
+        <link rel="stylesheet" href="./vendors/chartist/chartist.min.css">
+        <!-- End plugin css for this page -->
+        <!-- inject:css -->
+        <!-- endinject -->
+        <!-- Layout styles -->
+        <link rel="stylesheet" href="./css/style.css">
+        <!-- End layout styles -->
+
     </head>
 
     <body>
         <div class="container-scroller">
+            <!-- partial:partials/_navbar.html -->
             <?php include_once('includes/header.php'); ?>
+            <!-- partial -->
             <div class="container-fluid page-body-wrapper">
+                <!-- partial:partials/_sidebar.html -->
                 <?php include_once('includes/sidebar.php'); ?>
+                <!-- partial -->
                 <div class="main-panel">
                     <div class="content-wrapper">
                         <div class="page-header">
-                            <h3 class="page-title">Students in Class <?php echo htmlentities($class_info->ClassName . ' - ' . $class_info->Section); ?></h3>
+                            <h3 class="page-title">Students in Class: <?php echo htmlentities($class_info->ClassName . ' - ' . $class_info->Section); ?></h3>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
@@ -58,6 +73,7 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
                                     <div class="card-body">
                                         <div class="d-sm-flex align-items-center mb-4">
                                             <h4 class="card-title mb-sm-0">Students List</h4>
+                                            <a href="my-classes.php" class="text-dark ml-auto mb-3 mb-sm-0"> View All Classes</a>
                                         </div>
                                         <div class="table-responsive border rounded p-1">
                                             <table class="table">
@@ -107,13 +123,32 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
                             </div>
                         </div>
                     </div>
+                    <!-- content-wrapper ends -->
+                    <!-- partial:partials/_footer.html -->
                     <?php include_once('includes/footer.php'); ?>
+                    <!-- partial -->
                 </div>
+                <!-- main-panel ends -->
             </div>
+            <!-- page-body-wrapper ends -->
         </div>
-        <script src="../admin/vendors/js/vendor.bundle.base.js"></script>
-        <script src="../admin/js/off-canvas.js"></script>
-        <script src="../admin/js/misc.js"></script>
+        <!-- container-scroller -->
+        <!-- plugins:js -->
+        <script src="vendors/js/vendor.bundle.base.js"></script>
+        <!-- endinject -->
+        <!-- Plugin js for this page -->
+        <script src="vendors/chart.js/Chart.min.js"></script>
+        <script src="vendors/moment/moment.min.js"></script>
+        <script src="vendors/daterangepicker/daterangepicker.js"></script>
+        <script src="vendors/chartist/chartist.min.js"></script>
+        <!-- End plugin js for this page -->
+        <!-- inject:js -->
+        <script src="js/off-canvas.js"></script>
+        <script src="js/misc.js"></script>
+        <!-- endinject -->
+        <!-- Custom js for this page -->
+        <script src="js/dashboard.js"></script>
+        <!-- End custom js for this page -->
     </body>
 
     </html><?php } ?>

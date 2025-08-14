@@ -11,10 +11,10 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
 
     <head>
         <title>Teacher Management System|| My Notices</title>
-        <link rel="stylesheet" href="../admin/vendors/simple-line-icons/css/simple-line-icons.css">
-        <link rel="stylesheet" href="../admin/vendors/flag-icon-css/css/flag-icon.min.css">
-        <link rel="stylesheet" href="../admin/vendors/css/vendor.bundle.base.css">
-        <link rel="stylesheet" href="../admin/css/style.css">
+        <link rel="stylesheet" href="vendors/simple-line-icons/css/simple-line-icons.css">
+        <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
+        <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+        <link rel="stylesheet" href="css/style.css">
     </head>
 
     <body>
@@ -96,9 +96,9 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
                 </div>
             </div>
         </div>
-        <script src="../admin/vendors/js/vendor.bundle.base.js"></script>
-        <script src="../admin/js/off-canvas.js"></script>
-        <script src="../admin/js/misc.js"></script>
+        <script src="vendors/js/vendor.bundle.base.js"></script>
+        <script src="js/off-canvas.js"></script>
+        <script src="js/misc.js"></script>
     </body>
 
     </html><?php } ?>

@@ -1,39 +1,45 @@
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo" style="color:#fd7e14; font-weight:bold; font-size:18px;">Teacher Panel</a>
-        <a class="navbar-brand brand-logo-mini" style="color:#fd7e14; font-weight:bold; font-size:18px;">TP</a>
-    </div>
-    <div class="navbar-menu-wrapper d-flex align-items-stretch">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-            <span class="icon-menu"></span>
-        </button>
+    <div class="navbar-brand-wrapper d-flex align-items-center">
+        <a class="navbar-brand brand-logo" href="dashboard.php">
+            <strong style="color: white;">TMS</strong>
+        </a>
+        <a class="navbar-brand brand-logo-mini" href="dashboard.php"><img src="images/logo-mini.svg" alt="logo" /></a>
+    </div><?php
+            $tid = $_SESSION['teachermsaid'];
+            $sql = "SELECT * from tblteacher where ID=:tid";
 
-        <ul class="navbar-nav navbar-nav-right">
+            $query = $dbh->prepare($sql);
+            $query->bindParam(':tid', $tid, PDO::PARAM_STR);
+            $query->execute();
+            $results = $query->fetchAll(PDO::FETCH_OBJ);
 
-            <li class="nav-item nav-profile dropdown">
-                <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                    <div class="nav-profile-img">
-                        <img src="images/faces/face8.jpg" alt="image">
-                        <span class="availability-status online"></span>
-                    </div>
-                    <div class="nav-profile-text">
-                        <p class="mb-1 text-black"><?php echo $_SESSION['teachername']; ?></p>
-                    </div>
-                </a>
-                <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="profile.php">
-                        <i class="icon-user mr-2 text-success"></i> Profile </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="change-password.php">
-                        <i class="icon-key mr-2 text-success"></i> Change Password </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="logout.php">
-                        <i class="icon-power mr-2 text-success"></i> Logout </a>
-                </div>
-            </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-            <span class="icon-menu"></span>
-        </button>
-    </div>
+            $cnt = 1;
+            if ($query->rowCount() > 0) {
+                foreach ($results as $row) {               ?>
+            <div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
+                <h5 class="mb-0 font-weight-medium d-none d-lg-flex"><?php echo htmlentities($row->TeacherName); ?> Welcome to dashboard!</h5>
+                <ul class="navbar-nav navbar-nav-right ml-auto">
+                    <li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
+                        <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                            <img class="img-xs rounded-circle ml-2" src="images/faces/face8.jpg" alt="Profile image">
+                            <span class="font-weight-normal"> <?php echo htmlentities($row->TeacherName); ?> </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                            <div class="dropdown-header text-center">
+                                <img class="img-md rounded-circle" src="images/faces/face8.jpg" alt="Profile image">
+                                <p class="mb-1 mt-3"><?php echo htmlentities($row->TeacherName); ?></p>
+                                <p class="font-weight-light text-muted mb-0"><?php echo htmlentities($row->TeacherEmail); ?></p>
+                            </div><?php $cnt = $cnt + 1;
+                                }
+                            } ?>
+                    <a class="dropdown-item" href="profile.php"><i class="dropdown-item-icon icon-user text-primary"></i> My Profile</a>
+                    <a class="dropdown-item" href="change-password.php"><i class="dropdown-item-icon icon-energy text-primary"></i> Change Password</a>
+                    <a class="dropdown-item" href="logout.php"><i class="dropdown-item-icon icon-power text-primary"></i>Sign Out</a>
+                        </div>
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                    <span class="icon-menu"></span>
+                </button>
+            </div>
 </nav>

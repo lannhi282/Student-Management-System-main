@@ -1,21 +1,34 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
-        <li class="nav-item nav-profile border-bottom">
-            <a href="#" class="nav-link flex-column">
-                <div class="nav-profile-image">
-                    <img src="images/faces/face8.jpg" alt="profile">
-                    <!--change to offline or busy as needed-->
+        <li class="nav-item nav-profile">
+            <a href="#" class="nav-link">
+                <div class="profile-image">
+                    <img class="img-xs rounded-circle" src="images/faces/face8.jpg" alt="profile image">
+                    <div class="dot-indicator bg-success"></div>
                 </div>
-                <div class="nav-profile-text d-flex ml-0 mb-3 flex-column">
-                    <span class="font-weight-semibold mb-1 mt-2 text-center"><?php echo $_SESSION['teachername']; ?></span>
+                <div class="text-wrapper">
+                    <?php
+                    $tid = $_SESSION['teachermsaid'];
+                    $sql = "SELECT * from tblteacher where ID=:tid";
+
+                    $query = $dbh->prepare($sql);
+                    $query->bindParam(':tid', $tid, PDO::PARAM_STR);
+                    $query->execute();
+                    $results = $query->fetchAll(PDO::FETCH_OBJ);
+
+                    $cnt = 1;
+                    if ($query->rowCount() > 0) {
+                        foreach ($results as $row) {               ?>
+                            <p class="profile-name"><?php echo htmlentities($row->TeacherName); ?></p>
+                            <p class="designation"><?php echo htmlentities($row->TeacherEmail); ?></p><?php $cnt = $cnt + 1;
+                                                                                                    }
+                                                                                                } ?>
                 </div>
+
             </a>
         </li>
-        <li class="nav-item pt-3">
-            <a class="nav-link d-block" href="dashboard.php">
-                <img class="sidebar-brand-logo" src="" alt="" />
-                <img class="sidebar-brand-logomini" src="" alt="" />
-            </a>
+        <li class="nav-item nav-category">
+            <span class="nav-link">Dashboard</span>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="dashboard.php">
@@ -23,12 +36,14 @@
                 <i class="icon-screen-desktop menu-icon"></i>
             </a>
         </li>
+
         <li class="nav-item">
             <a class="nav-link" href="my-classes.php">
                 <span class="menu-title">My Classes</span>
-                <i class="icon-book-open menu-icon"></i>
+                <i class="icon-layers menu-icon"></i>
             </a>
         </li>
+
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#homework" aria-expanded="false" aria-controls="homework">
                 <span class="menu-title">Homework</span>
@@ -41,6 +56,7 @@
                 </ul>
             </div>
         </li>
+
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#notices" aria-expanded="false" aria-controls="notices">
                 <span class="menu-title">Notices</span>
@@ -53,6 +69,7 @@
                 </ul>
             </div>
         </li>
+
         <li class="nav-item">
             <a class="nav-link" href="profile.php">
                 <span class="menu-title">Profile</span>
