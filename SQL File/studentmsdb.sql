@@ -400,3 +400,104 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+-- =======================
+
+-- Bảng môn học
+CREATE TABLE `tblsubject` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `SubjectName` varchar(100) NOT NULL,
+  `SubjectCode` varchar(20) NOT NULL,
+  `CreationDate` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dữ liệu mẫu môn học
+INSERT INTO `tblsubject` (`SubjectName`, `SubjectCode`) VALUES
+('Mathematics', 'MATH'),
+('Physics', 'PHY'),
+('Chemistry', 'CHEM'),
+('Biology', 'BIO'),
+('English', 'ENG'),
+('History', 'HIST'),
+('Geography', 'GEO');
+
+-- Bảng gán môn học cho teacher và lớp
+CREATE TABLE `tblteachersubject` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `TeacherID` int(10) NOT NULL,
+  `ClassID` int(10) NOT NULL,
+  `SubjectID` int(10) NOT NULL,
+  `AssignDate` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`TeacherID`) REFERENCES `tblteacher`(`ID`),
+  FOREIGN KEY (`ClassID`) REFERENCES `tblclass`(`ID`),
+  FOREIGN KEY (`SubjectID`) REFERENCES `tblsubject`(`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dữ liệu mẫu: Teacher ID 1 dạy Math và Physics cho Class 1
+INSERT INTO `tblteachersubject` (`TeacherID`, `ClassID`, `SubjectID`) VALUES
+(1, 1, 1), -- Teacher 1 dạy Math cho lớp 10-A
+(1, 1, 2); -- Teacher 1 dạy Physics cho lớp 10-A
+
+-- Bảng loại điểm (giữa kỳ, cuối kỳ, kiểm tra...)
+CREATE TABLE `tblgradetype` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `TypeName` varchar(50) NOT NULL,
+  `Weight` decimal(5,2) NOT NULL, -- Trọng số (ví dụ: 0.3 cho giữa kỳ)
+  `CreationDate` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dữ liệu loại điểm
+INSERT INTO `tblgradetype` (`TypeName`, `Weight`) VALUES
+('Kiểm tra 15 phút', 0.1),
+('Kiểm tra 1 tiết', 0.2),
+('Giữa kỳ', 0.3),
+('Cuối kỳ', 0.4);
+
+-- Bảng điểm chính
+CREATE TABLE `tblgrade` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `StudentID` int(10) NOT NULL,
+  `SubjectID` int(10) NOT NULL,
+  `ClassID` int(10) NOT NULL,
+  `GradeTypeID` int(10) NOT NULL,
+  `Score` decimal(4,2) NOT NULL, -- Điểm (0-10)
+  `TeacherID` int(10) NOT NULL,
+  `ExamDate` date NOT NULL,
+  `Remarks` text NULL,
+  `CreationDate` timestamp NULL DEFAULT current_timestamp(),
+  `UpdateDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`StudentID`) REFERENCES `tblstudent`(`ID`),
+  FOREIGN KEY (`SubjectID`) REFERENCES `tblsubject`(`ID`),
+  FOREIGN KEY (`ClassID`) REFERENCES `tblclass`(`ID`),
+  FOREIGN KEY (`GradeTypeID`) REFERENCES `tblgradetype`(`ID`),
+  FOREIGN KEY (`TeacherID`) REFERENCES `tblteacher`(`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dữ liệu mẫu điểm
+INSERT INTO `tblgrade` (`StudentID`, `SubjectID`, `ClassID`, `GradeTypeID`, `Score`, `TeacherID`, `ExamDate`, `Remarks`) VALUES
+(4, 1, 1, 1, 8.5, 1, '2025-01-10', 'Good performance'),
+(4, 1, 1, 2, 7.0, 1, '2025-01-15', 'Need improvement'),
+(6, 1, 1, 1, 9.0, 1, '2025-01-10', 'Excellent'),
+(6, 1, 1, 2, 8.5, 1, '2025-01-15', 'Very good');
+
+-- Bảng điểm tổng kết học kỳ (tự động tính)
+CREATE TABLE `tblsemestergrade` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `StudentID` int(10) NOT NULL,
+  `SubjectID` int(10) NOT NULL,
+  `ClassID` int(10) NOT NULL,
+  `Semester` int(2) NOT NULL, -- 1 hoặc 2
+  `Year` int(4) NOT NULL,
+  `AverageScore` decimal(4,2) NOT NULL,
+  `Grade` varchar(2) NOT NULL, -- A, B, C, D, F
+  `CreationDate` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`StudentID`) REFERENCES `tblstudent`(`ID`),
+  FOREIGN KEY (`SubjectID`) REFERENCES `tblsubject`(`ID`),
+  FOREIGN KEY (`ClassID`) REFERENCES `tblclass`(`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

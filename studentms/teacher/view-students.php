@@ -5,17 +5,24 @@ include('includes/dbconnection.php');
 if (strlen($_SESSION['teachermsaid']) == 0) {
     header('location:logout.php');
 } else {
-    $classid = intval($_GET['classid']);
+    // FIX: Keep as string, don't convert to int
+    $classid = $_GET['classid']; // Remove intval()
     $teacherid = $_SESSION['teachermsaid'];
+
+    // Debug: Add this to check what values we're getting
+    error_log("Debug - ClassID: " . $classid . ", TeacherID: " . $teacherid);
 
     // Verify teacher has access to this class
     $verify_sql = "SELECT c.ClassName, c.Section FROM tblclass c 
                  JOIN tblteacherclass tc ON c.ID = tc.ClassID 
                  WHERE c.ID = :classid AND tc.TeacherID = :teacherid";
     $verify_query = $dbh->prepare($verify_sql);
-    $verify_query->bindParam(':classid', $classid, PDO::PARAM_STR);
-    $verify_query->bindParam(':teacherid', $teacherid, PDO::PARAM_STR);
+    $verify_query->bindParam(':classid', $classid, PDO::PARAM_INT); // FIX: Use PARAM_INT for tblclass.ID
+    $verify_query->bindParam(':teacherid', $teacherid, PDO::PARAM_INT);
     $verify_query->execute();
+
+    // Debug: Check if verification works
+    error_log("Debug - Verify query rows: " . $verify_query->rowCount());
 
     if ($verify_query->rowCount() == 0) {
         echo "<script>alert('Access Denied!');</script>";
@@ -88,14 +95,18 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                    $sql = "SELECT StudentName, StudentEmail, MobileNumber, DateofAdmission 
+                                                    // FIX: The main query - this should work now
+                                                    $sql = "SELECT StudentName, StudentEmail, ContactNumber, DateofAdmission 
                                 FROM tblstudent 
                                 WHERE StudentClass = :classid 
                                 ORDER BY StudentName";
                                                     $query = $dbh->prepare($sql);
-                                                    $query->bindParam(':classid', $classid, PDO::PARAM_STR);
+                                                    $query->bindParam(':classid', $classid, PDO::PARAM_STR); // Keep as STR since StudentClass is varchar
                                                     $query->execute();
                                                     $results = $query->fetchAll(PDO::FETCH_OBJ);
+
+                                                    // Debug: Check query results
+                                                    error_log("Debug - Student query rows: " . $query->rowCount());
 
                                                     $cnt = 1;
                                                     if ($query->rowCount() > 0) {
@@ -105,14 +116,14 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
                                                                 <td><?php echo htmlentities($cnt); ?></td>
                                                                 <td><?php echo htmlentities($row->StudentName); ?></td>
                                                                 <td><?php echo htmlentities($row->StudentEmail); ?></td>
-                                                                <td><?php echo htmlentities($row->MobileNumber); ?></td>
+                                                                <td><?php echo htmlentities($row->ContactNumber); ?></td> <!-- FIX: Was MobileNumber, should be ContactNumber -->
                                                                 <td><?php echo htmlentities($row->DateofAdmission); ?></td>
                                                             </tr>
                                                         <?php $cnt = $cnt + 1;
                                                         }
                                                     } else { ?>
                                                         <tr>
-                                                            <td colspan="5" style="color:red; text-align:center;">No Students Found</td>
+                                                            <td colspan="5" style="color:red; text-align:center;">No Students Found for Class ID: <?php echo htmlentities($classid); ?></td>
                                                         </tr>
                                                     <?php } ?>
                                                 </tbody>

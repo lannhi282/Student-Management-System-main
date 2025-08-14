@@ -12,20 +12,31 @@ if (strlen($_SESSION['sturecmsaid']) == 0) {
         $password = md5($_POST['password']);
         $mobilenumber = $_POST['mobilenumber'];
 
-        $sql = "INSERT INTO tblteacher(TeacherName,TeacherEmail,Username,Password,MobileNumber)VALUES(:teachername,:teacheremail,:username,:password,:mobilenumber)";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':teachername', $teachername, PDO::PARAM_STR);
-        $query->bindParam(':teacheremail', $teacheremail, PDO::PARAM_STR);
-        $query->bindParam(':username', $username, PDO::PARAM_STR);
-        $query->bindParam(':password', $password, PDO::PARAM_STR);
-        $query->bindParam(':mobilenumber', $mobilenumber, PDO::PARAM_STR);
-        $query->execute();
-        $LastInsertId = $dbh->lastInsertId();
-        if ($LastInsertId > 0) {
-            echo '<script>alert("Teacher has been added.")</script>';
-            echo "<script>window.location.href ='manage-teachers.php'</script>";
+        // Check if username already exists
+        $check_sql = "SELECT ID FROM tblteacher WHERE Username = :username OR Email = :email";
+        $check_query = $dbh->prepare($check_sql);
+        $check_query->bindParam(':username', $username, PDO::PARAM_STR);
+        $check_query->bindParam(':email', $teacheremail, PDO::PARAM_STR);
+        $check_query->execute();
+
+        if ($check_query->rowCount() > 0) {
+            echo '<script>alert("Username or Email already exists!")</script>';
         } else {
-            echo '<script>alert("Something Went Wrong. Please try again")</script>';
+            $sql = "INSERT INTO tblteacher(TeacherName,Email,Username,Password,MobileNumber) VALUES(:teachername,:teacheremail,:username,:password,:mobilenumber)";
+            $query = $dbh->prepare($sql);
+            $query->bindParam(':teachername', $teachername, PDO::PARAM_STR);
+            $query->bindParam(':teacheremail', $teacheremail, PDO::PARAM_STR);
+            $query->bindParam(':username', $username, PDO::PARAM_STR);
+            $query->bindParam(':password', $password, PDO::PARAM_STR);
+            $query->bindParam(':mobilenumber', $mobilenumber, PDO::PARAM_STR);
+            $query->execute();
+            $LastInsertId = $dbh->lastInsertId();
+            if ($LastInsertId > 0) {
+                echo '<script>alert("Teacher has been added.")</script>';
+                echo "<script>window.location.href ='manage-teachers.php'</script>";
+            } else {
+                echo '<script>alert("Something Went Wrong. Please try again")</script>';
+            }
         }
     }
 ?>
