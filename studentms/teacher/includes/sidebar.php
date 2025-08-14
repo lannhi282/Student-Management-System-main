@@ -71,6 +71,19 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#grades" aria-expanded="false" aria-controls="grades">
+                <span class="menu-title">Grades</span>
+                <i class="icon-graduation menu-icon"></i>
+            </a>
+            <div class="collapse" id="grades">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="add-grades.php">Add Grades</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="manage-grades.php">Manage Grades</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link" href="profile.php">
                 <span class="menu-title">Profile</span>
                 <i class="icon-user menu-icon"></i>

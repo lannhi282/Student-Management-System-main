@@ -38,8 +38,14 @@
     </li>
     <li class="nav-item">
       <a class="nav-link" href="view-notice.php">
-        <span class="menu-title">View Notice</span>
-        <i class="icon-doc menu-icon"></i>
+        <span class="menu-title">Notice</span>
+        <i class="icon-screen-desktop menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="view-grades.php">
+        <span class="menu-title">My Grades</span>
+        <i class="icon-graduation menu-icon"></i>
       </a>
     </li>
 
