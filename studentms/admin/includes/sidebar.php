@@ -136,12 +136,7 @@
         </ul>
       </div>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="search.php">
-        <span class="menu-title">Search</span>
-        <i class="icon-magnifier menu-icon"></i>
-      </a>
-    </li>
+
     <li class="nav-item">
       <a class="nav-link" href="manage-teachers.php">
         <span class="menu-title">Manage Teachers</span>

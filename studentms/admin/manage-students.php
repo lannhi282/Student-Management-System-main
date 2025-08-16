@@ -20,34 +20,20 @@ if (strlen($_SESSION['sturecmsaid'] == 0)) {
   <html lang="en">
 
   <head>
-
-    <title>Student Management System|||Manage Students</title>
-    <!-- plugins:css -->
+    <title>Student Management System | Manage Students</title>
     <link rel="stylesheet" href="vendors/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
     <link rel="stylesheet" href="./vendors/daterangepicker/daterangepicker.css">
     <link rel="stylesheet" href="./vendors/chartist/chartist.min.css">
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <!-- endinject -->
-    <!-- Layout styles -->
     <link rel="stylesheet" href="./css/style.css">
-    <!-- End layout styles -->
-
   </head>
 
   <body>
     <div class="container-scroller">
-      <!-- partial:partials/_navbar.html -->
       <?php include_once('includes/header.php'); ?>
-      <!-- partial -->
       <div class="container-fluid page-body-wrapper">
-        <!-- partial:partials/_sidebar.html -->
         <?php include_once('includes/sidebar.php'); ?>
-        <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
@@ -72,6 +58,17 @@ if (strlen($_SESSION['sturecmsaid'] == 0)) {
                         <a href="#" class="text-dark mb-3 mb-sm-0"> View all Students</a>
                       </div>
                     </div>
+                    <!-- Search Form -->
+                    <div class="mb-4">
+                      <form method="GET" action="manage-students.php">
+                        <div class="input-group">
+                          <input type="text" name="search" class="form-control" placeholder="Search by Student Name or ID" value="<?php echo isset($_GET['search']) ? htmlentities($_GET['search']) : ''; ?>">
+                          <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
                     <div class="table-responsive border rounded p-1">
                       <table class="table">
                         <thead>
@@ -81,9 +78,8 @@ if (strlen($_SESSION['sturecmsaid'] == 0)) {
                             <th class="font-weight-bold">Student Class</th>
                             <th class="font-weight-bold">Student Name</th>
                             <th class="font-weight-bold">Student Email</th>
-                            <th class="font-weight-bold">Admissin Date</th>
+                            <th class="font-weight-bold">Admission Date</th>
                             <th class="font-weight-bold">Action</th>
-
                           </tr>
                         </thead>
                         <tbody>
@@ -100,30 +96,33 @@ if (strlen($_SESSION['sturecmsaid'] == 0)) {
                           $next_page = $page_no + 1;
                           $adjacents = "2";
 
-                          $ret = "SELECT ID FROM tblstudent";
+                          // Prepare SQL for counting total records with search filter
+                          $search = isset($_GET['search']) ? $_GET['search'] : '';
+                          $ret = "SELECT ID FROM tblstudent WHERE StudentName LIKE :search OR StuID LIKE :search";
                           $query1 = $dbh->prepare($ret);
+                          $query1->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
                           $query1->execute();
-                          $results1 = $query1->fetchAll(PDO::FETCH_OBJ);
                           $total_records = $query1->rowCount();
-                          //$total_records = $total_records['total_records'];
                           $total_no_of_pages = ceil($total_records / $total_records_per_page);
                           $second_last = $total_no_of_pages - 1;
-                          $ret = "SELECT ID FROM tblstudent";
-                          $query1 = $dbh->prepare($ret);
-                          $query1->execute();
-                          $results1 = $query1->fetchAll(PDO::FETCH_OBJ);
-                          $total_rows = $query1->rowCount();
-                          $total_pages = ceil($total_rows / $total_no_of_pages);
-                          $sql = "SELECT tblstudent.StuID,tblstudent.ID as sid,tblstudent.StudentName,tblstudent.StudentEmail,tblstudent.DateofAdmission,tblclass.ClassName,tblclass.Section from tblstudent join tblclass on tblclass.ID=tblstudent.StudentClass LIMIT $offset, $total_records_per_page";
+
+                          // Prepare SQL for fetching records with search filter
+                          $sql = "SELECT tblstudent.StuID, tblstudent.ID as sid, tblstudent.StudentName, tblstudent.StudentEmail, tblstudent.DateofAdmission, tblclass.ClassName, tblclass.Section 
+                                FROM tblstudent 
+                                JOIN tblclass ON tblclass.ID = tblstudent.StudentClass 
+                                WHERE tblstudent.StudentName LIKE :search OR tblstudent.StuID LIKE :search 
+                                LIMIT :offset, :total_records_per_page";
                           $query = $dbh->prepare($sql);
+                          $query->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+                          $query->bindValue(':offset', $offset, PDO::PARAM_INT);
+                          $query->bindValue(':total_records_per_page', $total_records_per_page, PDO::PARAM_INT);
                           $query->execute();
                           $results = $query->fetchAll(PDO::FETCH_OBJ);
 
                           $cnt = 1;
                           if ($query->rowCount() > 0) {
-                            foreach ($results as $row) {               ?>
+                            foreach ($results as $row) { ?>
                               <tr>
-
                                 <td><?php echo htmlentities($cnt); ?></td>
                                 <td><?php echo htmlentities($row->StuID); ?></td>
                                 <td><?php echo htmlentities($row->ClassName); ?> <?php echo htmlentities($row->Section); ?></td>
@@ -131,92 +130,89 @@ if (strlen($_SESSION['sturecmsaid'] == 0)) {
                                 <td><?php echo htmlentities($row->StudentEmail); ?></td>
                                 <td><?php echo htmlentities($row->DateofAdmission); ?></td>
                                 <td>
-                                  <div><a href="edit-student-detail.php?editid=<?php echo htmlentities($row->sid); ?>" class="btn btn-info btn-xs" target="blank">Edit</a>
-                                    <a href="manage-students.php?delid=<?php echo ($row->sid); ?>" onclick="return confirm('Do you really want to Delete ?');" class="btn btn-danger btn-xs"> Delete</a>
+                                  <div>
+                                    <a href="edit-student-detail.php?editid=<?php echo htmlentities($row->sid); ?>" class="btn btn-info btn-xs" target="_blank">Edit</a>
+                                    <a href="manage-students.php?delid=<?php echo ($row->sid); ?>&search=<?php echo htmlentities($search); ?>" onclick="return confirm('Do you really want to Delete ?');" class="btn btn-danger btn-xs"> Delete</a>
                                   </div>
                                 </td>
-                              </tr><?php $cnt = $cnt + 1;
-                                  }
-                                } ?>
+                              </tr>
+                          <?php $cnt = $cnt + 1;
+                            }
+                          } else {
+                            echo '<tr><td colspan="7">No records found</td></tr>';
+                          } ?>
                         </tbody>
                       </table>
                     </div>
                     <div align="left">
-                      <div style='padding: 10px 20px 0px; border-top: dotted 1px #CCC;'>
-
-                      </div>
+                      <div style='padding: 10px 20px 0px; border-top: dotted 1px #CCC;'></div>
                       <hr />
                       <ul class="pagination">
-
                         <li <?php if ($page_no <= 1) {
                               echo "class='disabled'";
                             } ?>>
                           <a <?php if ($page_no > 1) {
-                                echo "href='?page_no=$previous_page'";
+                                echo "href='?page_no=$previous_page&search=" . urlencode($search) . "'";
                               } ?>>Previous</a>
                         </li>
-
                         <?php
                         if ($total_no_of_pages <= 10) {
                           for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
                             if ($counter == $page_no) {
                               echo "<li class='active'><a>$counter</a></li>";
                             } else {
-                              echo "<li><a href='?page_no=$counter'>$counter</a></li>";
+                              echo "<li><a href='?page_no=$counter&search=" . urlencode($search) . "'>$counter</a></li>";
                             }
                           }
                         } elseif ($total_no_of_pages > 10) {
-
                           if ($page_no <= 4) {
                             for ($counter = 1; $counter < 8; $counter++) {
                               if ($counter == $page_no) {
                                 echo "<li class='active'><a>$counter</a></li>";
                               } else {
-                                echo "<li><a href='?page_no=$counter'>$counter</a></li>";
+                                echo "<li><a href='?page_no=$counter&search=" . urlencode($search) . "'>$counter</a></li>";
                               }
                             }
                             echo "<li><a>...</a></li>";
-                            echo "<li><a href='?page_no=$second_last'>$second_last</a></li>";
-                            echo "<li><a href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
+                            echo "<li><a href='?page_no=$second_last&search=" . urlencode($search) . "'>$second_last</a></li>";
+                            echo "<li><a href='?page_no=$total_no_of_pages&search=" . urlencode($search) . "'>$total_no_of_pages</a></li>";
                           } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) {
-                            echo "<li><a href='?page_no=1'>1</a></li>";
-                            echo "<li><a href='?page_no=2'>2</a></li>";
+                            echo "<li><a href='?page_no=1&search=" . urlencode($search) . "'>1</a></li>";
+                            echo "<li><a href='?page_no=2&search=" . urlencode($search) . "'>2</a></li>";
                             echo "<li><a>...</a></li>";
                             for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
                               if ($counter == $page_no) {
                                 echo "<li class='active'><a>$counter</a></li>";
                               } else {
-                                echo "<li><a href='?page_no=$counter'>$counter</a></li>";
+                                echo "<li><a href='?page_no=$counter&search=" . urlencode($search) . "'>$counter</a></li>";
                               }
                             }
                             echo "<li><a>...</a></li>";
-                            echo "<li><a href='?page_no=$second_last'>$second_last</a></li>";
-                            echo "<li><a href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
+                            echo "<li><a href='?page_no=$second_last&search=" . urlencode($search) . "'>$second_last</a></li>";
+                            echo "<li><a href='?page_no=$total_no_of_pages&search=" . urlencode($search) . "'>$total_no_of_pages</a></li>";
                           } else {
-                            echo "<li><a href='?page_no=1'>1</a></li>";
-                            echo "<li><a href='?page_no=2'>2</a></li>";
+                            echo "<li><a href='?page_no=1&search=" . urlencode($search) . "'>1</a></li>";
+                            echo "<li><a href='?page_no=2&search=" . urlencode($search) . "'>2</a></li>";
                             echo "<li><a>...</a></li>";
-
                             for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
                               if ($counter == $page_no) {
                                 echo "<li class='active'><a>$counter</a></li>";
                               } else {
-                                echo "<li><a href='?page_no=$counter'>$counter</a></li>";
+                                echo "<li><a href='?page_no=$counter&search=" . urlencode($search) . "'>$counter</a></li>";
                               }
                             }
                           }
                         }
                         ?>
-
                         <li <?php if ($page_no >= $total_no_of_pages) {
                               echo "class='disabled'";
                             } ?>>
                           <a <?php if ($page_no < $total_no_of_pages) {
-                                echo "href='?page_no=$next_page'";
+                                echo "href='?page_no=$next_page&search=" . urlencode($search) . "'";
                               } ?>>Next</a>
                         </li>
                         <?php if ($page_no < $total_no_of_pages) {
-                          echo "<li><a href='?page_no=$total_no_of_pages'>Last &rsaquo;&rsaquo;</a></li>";
+                          echo "<li><a href='?page_no=$total_no_of_pages&search=" . urlencode($search) . "'>Last &rsaquo;&rsaquo;</a></li>";
                         } ?>
                       </ul>
                     </div>
@@ -224,34 +220,19 @@ if (strlen($_SESSION['sturecmsaid'] == 0)) {
                 </div>
               </div>
             </div>
+            <?php include_once('includes/footer.php'); ?>
           </div>
-          <!-- content-wrapper ends -->
-          <!-- partial:partials/_footer.html -->
-          <?php include_once('includes/footer.php'); ?>
-          <!-- partial -->
         </div>
-        <!-- main-panel ends -->
       </div>
-      <!-- page-body-wrapper ends -->
-    </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <script src="./vendors/chart.js/Chart.min.js"></script>
-    <script src="./vendors/moment/moment.min.js"></script>
-    <script src="./vendors/daterangepicker/daterangepicker.js"></script>
-    <script src="./vendors/chartist/chartist.min.js"></script>
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="js/off-canvas.js"></script>
-    <script src="js/misc.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page -->
-    <script src="./js/dashboard.js"></script>
-    <!-- End custom js for this page -->
-
+      <script src="vendors/js/vendor.bundle.base.js"></script>
+      <script src="./vendors/chart.js/Chart.min.js"></script>
+      <script src="./vendors/moment/moment.min.js"></script>
+      <script src="./vendors/daterangepicker/daterangepicker.js"></script>
+      <script src="./vendors/chartist/chartist.min.js"></script>
+      <script src="js/off-canvas.js"></script>
+      <script src="js/misc.js"></script>
+      <script src="./js/dashboard.js"></script>
   </body>
 
-  </html><?php }  ?>
+  </html>
+<?php } ?>

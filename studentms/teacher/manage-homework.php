@@ -109,6 +109,7 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
                                                                 <td>
                                                                     <div>
                                                                         <a href="edit-homework.php?hwid=<?php echo htmlentities($row->hwid); ?>" class="btn btn-primary btn-sm">Edit</a>
+                                                                        <a href="uploaded-hw.php?hwid=<?php echo htmlentities($row->hwid); ?>" class="btn btn-success btn-sm">View Submissions</a>
                                                                         <a href="manage-homework.php?del=<?php echo htmlentities($row->hwid); ?>" onclick="return confirm('Do you really want to Delete ?');" class="btn btn-danger btn-sm">Delete</a>
                                                                     </div>
                                                                 </td>

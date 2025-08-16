@@ -15,15 +15,14 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
         $classid = $_POST['classid'];
         $gradetypeid = $_POST['gradetypeid'];
         $score = $_POST['score'];
-        $examdate = $_POST['examdate'];
-        $remarks = $_POST['remarks'];
+
 
         // Validate score
         if ($score < 0 || $score > 10) {
             echo "<script>alert('Điểm phải từ 0 đến 10!');</script>";
         } else {
-            $sql = "INSERT INTO tblgrade (StudentID, SubjectID, ClassID, GradeTypeID, Score, TeacherID, ExamDate, Remarks) 
-                    VALUES (:studentid, :subjectid, :classid, :gradetypeid, :score, :teacherid, :examdate, :remarks)";
+            $sql = "INSERT INTO tblgrade (StudentID, SubjectID, ClassID, GradeTypeID, Score, TeacherID) 
+                    VALUES (:studentid, :subjectid, :classid, :gradetypeid, :score, :teacherid)";
             $query = $dbh->prepare($sql);
             $query->bindParam(':studentid', $studentid, PDO::PARAM_INT);
             $query->bindParam(':subjectid', $subjectid, PDO::PARAM_INT);
@@ -31,8 +30,7 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
             $query->bindParam(':gradetypeid', $gradetypeid, PDO::PARAM_INT);
             $query->bindParam(':score', $score, PDO::PARAM_STR);
             $query->bindParam(':teacherid', $teacherid, PDO::PARAM_INT);
-            $query->bindParam(':examdate', $examdate, PDO::PARAM_STR);
-            $query->bindParam(':remarks', $remarks, PDO::PARAM_STR);
+
 
             if ($query->execute()) {
                 echo "<script>alert('Đã nhập điểm thành công!');</script>";
@@ -146,16 +144,9 @@ if (strlen($_SESSION['teachermsaid']) == 0) {
                                                     min="0" max="10" step="0.1" placeholder="Nhập điểm" required>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label for="examdate">Ngày kiểm tra</label>
-                                                <input type="date" class="form-control" id="examdate" name="examdate" required>
-                                            </div>
 
-                                            <div class="form-group">
-                                                <label for="remarks">Ghi chú</label>
-                                                <textarea class="form-control" id="remarks" name="remarks" rows="3"
-                                                    placeholder="Nhập ghi chú (tùy chọn)"></textarea>
-                                            </div>
+
+
 
                                             <button type="submit" name="submit" class="btn btn-primary mr-2">Thêm Điểm</button>
                                             <button type="reset" class="btn btn-light">Reset</button>

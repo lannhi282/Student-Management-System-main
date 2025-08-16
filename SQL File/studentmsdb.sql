@@ -421,7 +421,8 @@ INSERT INTO `tblsubject` (`SubjectName`, `SubjectCode`) VALUES
 ('Biology', 'BIO'),
 ('English', 'ENG'),
 ('History', 'HIST'),
-('Geography', 'GEO');
+('Geography', 'GEO'),
+('DA', 'CHEM');
 
 -- Bảng gán môn học cho teacher và lớp
 CREATE TABLE `tblteachersubject` (
@@ -439,7 +440,8 @@ CREATE TABLE `tblteachersubject` (
 -- Dữ liệu mẫu: Teacher ID 1 dạy Math và Physics cho Class 1
 INSERT INTO `tblteachersubject` (`TeacherID`, `ClassID`, `SubjectID`) VALUES
 (1, 1, 1), -- Teacher 1 dạy Math cho lớp 10-A
-(1, 1, 2); -- Teacher 1 dạy Physics cho lớp 10-A
+(1, 1, 2)
+(1, 1, 8); -- Teacher 1 dạy Physics cho lớp 10-A
 
 -- Bảng loại điểm (giữa kỳ, cuối kỳ, kiểm tra...)
 CREATE TABLE `tblgradetype` (
@@ -452,10 +454,12 @@ CREATE TABLE `tblgradetype` (
 
 -- Dữ liệu loại điểm
 INSERT INTO `tblgradetype` (`TypeName`, `Weight`) VALUES
-('Kiểm tra 15 phút', 0.1),
-('Kiểm tra 1 tiết', 0.2),
-('Giữa kỳ', 0.3),
-('Cuối kỳ', 0.4);
+('Exescise 1', 0.3),
+('Theory', 0.3),
+('Practice ', 0.6),
+(================),
+('P1 - ĐA', 0.5),
+('P2 - ĐA', 0.5);
 
 -- Bảng điểm chính
 CREATE TABLE `tblgrade` (
@@ -479,11 +483,11 @@ CREATE TABLE `tblgrade` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dữ liệu mẫu điểm
-INSERT INTO `tblgrade` (`StudentID`, `SubjectID`, `ClassID`, `GradeTypeID`, `Score`, `TeacherID`, `ExamDate`, `Remarks`) VALUES
-(4, 1, 1, 1, 8.5, 1, '2025-01-10', 'Good performance'),
-(4, 1, 1, 2, 7.0, 1, '2025-01-15', 'Need improvement'),
-(6, 1, 1, 1, 9.0, 1, '2025-01-10', 'Excellent'),
-(6, 1, 1, 2, 8.5, 1, '2025-01-15', 'Very good');
+INSERT INTO `tblgrade` (`StudentID`, `SubjectID`, `ClassID`, `GradeTypeID`, `Score`, `TeacherID`) VALUES
+(4, 1, 1, 1, 8.5, 1),
+(4, 1, 1, 2, 7.0, 1),
+(6, 1, 1, 1, 9.0, 1),
+(6, 1, 1, 2, 8.5, 1);
 
 -- Bảng điểm tổng kết học kỳ (tự động tính)
 CREATE TABLE `tblsemestergrade` (
