@@ -378,88 +378,6 @@
       color: var(--text-secondary);
     }
 
-    .login-form {
-      display: none;
-    }
-
-    .login-form.show {
-      display: block;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 1rem;
-      border: 2px solid var(--border-color);
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      background: white;
-    }
-
-    .form-group input:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-
-    .login-submit {
-      width: 100%;
-      padding: 1rem;
-      border: none;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 1rem;
-      color: white;
-    }
-
-    .login-submit.student {
-      background: linear-gradient(135deg, var(--secondary-color), #06b6d4);
-    }
-
-    .login-submit.teacher {
-      background: linear-gradient(135deg, var(--success-color), #059669);
-    }
-
-    .login-submit.admin {
-      background: linear-gradient(135deg, var(--danger-color), #dc2626);
-    }
-
-    .login-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-    }
-
-    .back-btn {
-      background: none;
-      border: none;
-      color: var(--text-secondary);
-      cursor: pointer;
-      padding: 0.5rem;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      margin-bottom: 1rem;
-    }
-
-    .back-btn:hover {
-      background: #f3f4f6;
-      color: var(--text-primary);
-    }
-
     /* Stats Section */
     .stats {
       padding: 6rem 2rem;
@@ -497,10 +415,10 @@
       font-weight: 500;
     }
 
-    /* Features Section */
-    .features {
+    /* Course Section with Horizontal Scroll */
+    .courses {
       padding: 8rem 2rem;
-      background: white;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     }
 
     .container {
@@ -538,83 +456,35 @@
       margin: 0 auto;
     }
 
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
-    }
-
-    .feature-card {
-      background: white;
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 2.5rem;
-      transition: all 0.3s ease;
+    .courses-container {
       position: relative;
-      overflow: hidden;
     }
 
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
-
-    .feature-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .feature-card:hover {
-      transform: translateY(-10px);
-      box-shadow: var(--shadow-lg);
-      border-color: rgba(37, 99, 235, 0.2);
-    }
-
-    .feature-icon {
-      width: 70px;
-      height: 70px;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      border-radius: 16px;
+    .courses-scroll {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .feature-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 1rem;
-    }
-
-    .feature-desc {
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-
-    /* Course Section */
-    .courses {
-      padding: 8rem 2rem;
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    }
-
-    .courses-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
-      margin-top: 3rem;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 1rem 0;
+      margin: 0 50px;
+    }
+
+    .courses-scroll::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .courses-scroll::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+
+    .courses-scroll::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 10px;
     }
 
     .course-card {
+      min-width: 350px;
       background: white;
       border-radius: 16px;
       padding: 2rem;
@@ -637,6 +507,40 @@
     .course-card:hover {
       transform: translateY(-5px);
       box-shadow: var(--shadow-lg);
+    }
+
+    .course-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      opacity: 0.7;
+      z-index: 10;
+    }
+
+    .course-nav:hover {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .course-nav.prev {
+      left: 10px;
+    }
+
+    .course-nav.next {
+      right: 10px;
     }
 
     .course-icon {
@@ -700,6 +604,131 @@
     .course-btn:hover {
       transform: translateY(-2px);
       box-shadow: var(--shadow);
+    }
+
+    /* Features Section with Horizontal Scroll */
+    .features {
+      padding: 8rem 2rem;
+      background: white;
+    }
+
+    .features-container {
+      position: relative;
+    }
+
+    .features-scroll {
+      display: flex;
+      gap: 2rem;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 1rem 0;
+      margin: 0 50px;
+    }
+
+    .features-scroll::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .features-scroll::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+
+    .features-scroll::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 10px;
+    }
+
+    .feature-card {
+      min-width: 350px;
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(37, 99, 235, 0.2);
+    }
+
+    .features-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      opacity: 0.7;
+      z-index: 10;
+    }
+
+    .features-nav:hover {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .features-nav.prev {
+      left: 10px;
+    }
+
+    .features-nav.next {
+      right: 10px;
+    }
+
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .feature-desc {
+      color: var(--text-secondary);
+      line-height: 1.7;
     }
 
     /* Testimonials Section */
@@ -776,134 +805,6 @@
     .author-info p {
       font-size: 0.9rem;
       color: var(--text-secondary);
-    }
-
-    /* Notice Board */
-    .notice-board {
-      padding: 8rem 2rem;
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    }
-
-    .notice-container {
-      background: white;
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 3rem;
-      box-shadow: var(--shadow);
-    }
-
-    .notice-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .notice-header h3 {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-
-    .notice-icon {
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(135deg, var(--accent-color), #f97316);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.2rem;
-    }
-
-    .notice-scroll {
-      max-height: 500px;
-      overflow-y: auto;
-    }
-
-    .notice-scroll::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .notice-scroll::-webkit-scrollbar-track {
-      background: #f1f5f9;
-      border-radius: 10px;
-    }
-
-    .notice-scroll::-webkit-scrollbar-thumb {
-      background: var(--primary-color);
-      border-radius: 10px;
-    }
-
-    .notice-item {
-      display: block;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-      background: #f8fafc;
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .notice-item::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      transform: scaleY(0);
-      transition: transform 0.3s ease;
-    }
-
-    .notice-item:hover::before {
-      transform: scaleY(1);
-    }
-
-    .notice-item:hover {
-      transform: translateX(10px);
-      background: white;
-      box-shadow: var(--shadow);
-      border-color: rgba(37, 99, 235, 0.2);
-    }
-
-    .notice-title {
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 0.5rem;
-      font-size: 1.1rem;
-    }
-
-    .notice-date {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .notice-priority {
-      display: inline-block;
-      padding: 0.25rem 0.5rem;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-left: 0.5rem;
-    }
-
-    .priority-high {
-      background: rgba(239, 68, 68, 0.1);
-      color: var(--danger-color);
-    }
-
-    .priority-new {
-      background: rgba(16, 185, 129, 0.1);
-      color: var(--success-color);
     }
 
     /* Footer */
@@ -1055,12 +956,6 @@
         align-items: center;
       }
 
-      .features-grid,
-      .courses-grid,
-      .testimonials-grid {
-        grid-template-columns: 1fr;
-      }
-
       .section-header h2 {
         font-size: 2rem;
       }
@@ -1077,6 +972,16 @@
       .footer-content {
         grid-template-columns: 1fr;
         text-align: center;
+      }
+
+      .courses-scroll,
+      .features-scroll {
+        margin: 0 20px;
+      }
+
+      .course-nav,
+      .features-nav {
+        display: none;
       }
     }
   </style>
@@ -1101,7 +1006,6 @@
           <li><a href="#courses" class="nav-link">Khóa học</a></li>
           <li><a href="#features" class="nav-link">Ưu điểm</a></li>
           <li><a href="#testimonials" class="nav-link">Học viên</a></li>
-          <li><a href="#notices" class="nav-link">Thông báo</a></li>
           <li><a href="#contact" class="nav-link">Liên hệ</a></li>
         </ul>
         <button class="login-btn" onclick="openModal()">
@@ -1141,26 +1045,6 @@
           <div class="role-desc">Quản lý toàn bộ hệ thống và người dùng</div>
         </div>
       </div>
-
-      <form id="loginForm" class="login-form">
-        <button type="button" class="back-btn" onclick="backToRoleSelection()">
-          <i class="fas fa-arrow-left"></i> Quay lại
-        </button>
-
-        <div class="form-group">
-          <label for="username">Tên đăng nhập</label>
-          <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập..." required>
-        </div>
-
-        <div class="form-group">
-          <label for="password">Mật khẩu</label>
-          <input type="password" id="password" name="password" placeholder="Nhập mật khẩu..." required>
-        </div>
-
-        <button type="submit" id="loginSubmit" class="login-submit">
-          <i class="fas fa-sign-in-alt"></i> Đăng nhập
-        </button>
-      </form>
     </div>
   </div>
 
@@ -1215,102 +1099,110 @@
         <h2>Chương trình đào tạo</h2>
         <p>Các khóa học được thiết kế phù hợp với nhu cầu thực tế của doanh nghiệp</p>
       </div>
-      <div class="courses-grid">
-        <div class="course-card">
-          <div class="course-icon"><i class="fab fa-html5"></i></div>
-          <h3 class="course-title">Web Development</h3>
-          <p class="course-desc">Học lập trình web từ cơ bản đến nâng cao với HTML, CSS, JavaScript, PHP, MySQL</p>
-          <ul class="course-features">
-            <li><i class="fas fa-check-circle"></i> HTML5, CSS3, JavaScript ES6+</li>
-            <li><i class="fas fa-check-circle"></i> PHP & MySQL</li>
-            <li><i class="fas fa-check-circle"></i> Framework Laravel, ReactJS</li>
-            <li><i class="fas fa-check-circle"></i> Thực hành dự án thực tế</li>
-            <li><i class="fas fa-check-circle"></i> Hỗ trợ tìm việc làm</li>
-          </ul>
-          <a href="#" class="course-btn">
-            <i class="fas fa-info-circle"></i> Xem chi tiết
-          </a>
-        </div>
+      <div class="courses-container">
+        <button class="course-nav prev" onclick="scrollCourses('prev')">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="courses-scroll" id="coursesScroll">
+          <div class="course-card">
+            <div class="course-icon"><i class="fab fa-html5"></i></div>
+            <h3 class="course-title">Web Development</h3>
+            <p class="course-desc">Học lập trình web từ cơ bản đến nâng cao với HTML, CSS, JavaScript, PHP, MySQL</p>
+            <ul class="course-features">
+              <li><i class="fas fa-check-circle"></i> HTML5, CSS3, JavaScript ES6+</li>
+              <li><i class="fas fa-check-circle"></i> PHP & MySQL</li>
+              <li><i class="fas fa-check-circle"></i> Framework Laravel, ReactJS</li>
+              <li><i class="fas fa-check-circle"></i> Thực hành dự án thực tế</li>
+              <li><i class="fas fa-check-circle"></i> Hỗ trợ tìm việc làm</li>
+            </ul>
+            <a href="#" class="course-btn">
+              <i class="fas fa-info-circle"></i> Xem chi tiết
+            </a>
+          </div>
 
-        <div class="course-card">
-          <div class="course-icon"><i class="fab fa-android"></i></div>
-          <h3 class="course-title">Mobile App Development</h3>
-          <p class="course-desc">Phát triển ứng dụng di động đa nền tảng với React Native và Flutter</p>
-          <ul class="course-features">
-            <li><i class="fas fa-check-circle"></i> React Native cơ bản đến nâng cao</li>
-            <li><i class="fas fa-check-circle"></i> Flutter & Dart</li>
-            <li><i class="fas fa-check-circle"></i> API Integration</li>
-            <li><i class="fas fa-check-circle"></i> Deploy lên App Store/Play Store</li>
-            <li><i class="fas fa-check-circle"></i> Dự án thực tế</li>
-          </ul>
-          <a href="#" class="course-btn">
-            <i class="fas fa-info-circle"></i> Xem chi tiết
-          </a>
-        </div>
+          <div class="course-card">
+            <div class="course-icon"><i class="fab fa-android"></i></div>
+            <h3 class="course-title">Mobile App Development</h3>
+            <p class="course-desc">Phát triển ứng dụng di động đa nền tảng với React Native và Flutter</p>
+            <ul class="course-features">
+              <li><i class="fas fa-check-circle"></i> React Native cơ bản đến nâng cao</li>
+              <li><i class="fas fa-check-circle"></i> Flutter & Dart</li>
+              <li><i class="fas fa-check-circle"></i> API Integration</li>
+              <li><i class="fas fa-check-circle"></i> Deploy lên App Store/Play Store</li>
+              <li><i class="fas fa-check-circle"></i> Dự án thực tế</li>
+            </ul>
+            <a href="#" class="course-btn">
+              <i class="fas fa-info-circle"></i> Xem chi tiết
+            </a>
+          </div>
 
-        <div class="course-card">
-          <div class="course-icon"><i class="fas fa-database"></i></div>
-          <h3 class="course-title">Data Science & AI</h3>
-          <p class="course-desc">Khóa học về khoa học dữ liệu và trí tuệ nhân tạo với Python</p>
-          <ul class="course-features">
-            <li><i class="fas fa-check-circle"></i> Python cơ bản đến nâng cao</li>
-            <li><i class="fas fa-check-circle"></i> Machine Learning</li>
-            <li><i class="fas fa-check-circle"></i> Deep Learning với TensorFlow</li>
-            <li><i class="fas fa-check-circle"></i> Data Visualization</li>
-            <li><i class="fas fa-check-circle"></i> Dự án AI thực tế</li>
-          </ul>
-          <a href="#" class="course-btn">
-            <i class="fas fa-info-circle"></i> Xem chi tiết
-          </a>
-        </div>
+          <div class="course-card">
+            <div class="course-icon"><i class="fas fa-database"></i></div>
+            <h3 class="course-title">Data Science & AI</h3>
+            <p class="course-desc">Khóa học về khoa học dữ liệu và trí tuệ nhân tạo với Python</p>
+            <ul class="course-features">
+              <li><i class="fas fa-check-circle"></i> Python cơ bản đến nâng cao</li>
+              <li><i class="fas fa-check-circle"></i> Machine Learning</li>
+              <li><i class="fas fa-check-circle"></i> Deep Learning với TensorFlow</li>
+              <li><i class="fas fa-check-circle"></i> Data Visualization</li>
+              <li><i class="fas fa-check-circle"></i> Dự án AI thực tế</li>
+            </ul>
+            <a href="#" class="course-btn">
+              <i class="fas fa-info-circle"></i> Xem chi tiết
+            </a>
+          </div>
 
-        <div class="course-card">
-          <div class="course-icon"><i class="fab fa-java"></i></div>
-          <h3 class="course-title">Java Programming</h3>
-          <p class="course-desc">Lập trình Java từ cơ bản đến nâng cao, Spring Framework</p>
-          <ul class="course-features">
-            <li><i class="fas fa-check-circle"></i> Java Core & OOP</li>
-            <li><i class="fas fa-check-circle"></i> Spring Boot Framework</li>
-            <li><i class="fas fa-check-circle"></i> Database với JPA/Hibernate</li>
-            <li><i class="fas fa-check-circle"></i> RESTful API</li>
-            <li><i class="fas fa-check-circle"></i> Microservices</li>
-          </ul>
-          <a href="#" class="course-btn">
-            <i class="fas fa-info-circle"></i> Xem chi tiết
-          </a>
-        </div>
+          <div class="course-card">
+            <div class="course-icon"><i class="fab fa-java"></i></div>
+            <h3 class="course-title">Java Programming</h3>
+            <p class="course-desc">Lập trình Java từ cơ bản đến nâng cao, Spring Framework</p>
+            <ul class="course-features">
+              <li><i class="fas fa-check-circle"></i> Java Core & OOP</li>
+              <li><i class="fas fa-check-circle"></i> Spring Boot Framework</li>
+              <li><i class="fas fa-check-circle"></i> Database với JPA/Hibernate</li>
+              <li><i class="fas fa-check-circle"></i> RESTful API</li>
+              <li><i class="fas fa-check-circle"></i> Microservices</li>
+            </ul>
+            <a href="#" class="course-btn">
+              <i class="fas fa-info-circle"></i> Xem chi tiết
+            </a>
+          </div>
 
-        <div class="course-card">
-          <div class="course-icon"><i class="fab fa-js-square"></i></div>
-          <h3 class="course-title">Full-stack JavaScript</h3>
-          <p class="course-desc">NodeJS, ReactJS, MongoDB - Trở thành Full-stack Developer</p>
-          <ul class="course-features">
-            <li><i class="fas fa-check-circle"></i> NodeJS & Express.js</li>
-            <li><i class="fas fa-check-circle"></i> ReactJS & Redux</li>
-            <li><i class="fas fa-check-circle"></i> MongoDB & Mongoose</li>
-            <li><i class="fas fa-check-circle"></i> RESTful API & GraphQL</li>
-            <li><i class="fas fa-check-circle"></i> Deployment & DevOps</li>
-          </ul>
-          <a href="#" class="course-btn">
-            <i class="fas fa-info-circle"></i> Xem chi tiết
-          </a>
-        </div>
+          <div class="course-card">
+            <div class="course-icon"><i class="fab fa-js-square"></i></div>
+            <h3 class="course-title">Full-stack JavaScript</h3>
+            <p class="course-desc">NodeJS, ReactJS, MongoDB - Trở thành Full-stack Developer</p>
+            <ul class="course-features">
+              <li><i class="fas fa-check-circle"></i> NodeJS & Express.js</li>
+              <li><i class="fas fa-check-circle"></i> ReactJS & Redux</li>
+              <li><i class="fas fa-check-circle"></i> MongoDB & Mongoose</li>
+              <li><i class="fas fa-check-circle"></i> RESTful API & GraphQL</li>
+              <li><i class="fas fa-check-circle"></i> Deployment & DevOps</li>
+            </ul>
+            <a href="#" class="course-btn">
+              <i class="fas fa-info-circle"></i> Xem chi tiết
+            </a>
+          </div>
 
-        <div class="course-card">
-          <div class="course-icon"><i class="fas fa-shield-alt"></i></div>
-          <h3 class="course-title">Cyber Security</h3>
-          <p class="course-desc">An toàn thông tin và bảo mật hệ thống</p>
-          <ul class="course-features">
-            <li><i class="fas fa-check-circle"></i> Network Security</li>
-            <li><i class="fas fa-check-circle"></i> Ethical Hacking</li>
-            <li><i class="fas fa-check-circle"></i> Penetration Testing</li>
-            <li><i class="fas fa-check-circle"></i> Security Tools & Frameworks</li>
-            <li><i class="fas fa-check-circle"></i> Incident Response</li>
-          </ul>
-          <a href="#" class="course-btn">
-            <i class="fas fa-info-circle"></i> Xem chi tiết
-          </a>
+          <div class="course-card">
+            <div class="course-icon"><i class="fas fa-shield-alt"></i></div>
+            <h3 class="course-title">Cyber Security</h3>
+            <p class="course-desc">An toàn thông tin và bảo mật hệ thống</p>
+            <ul class="course-features">
+              <li><i class="fas fa-check-circle"></i> Network Security</li>
+              <li><i class="fas fa-check-circle"></i> Ethical Hacking</li>
+              <li><i class="fas fa-check-circle"></i> Penetration Testing</li>
+              <li><i class="fas fa-check-circle"></i> Security Tools & Frameworks</li>
+              <li><i class="fas fa-check-circle"></i> Incident Response</li>
+            </ul>
+            <a href="#" class="course-btn">
+              <i class="fas fa-info-circle"></i> Xem chi tiết
+            </a>
+          </div>
         </div>
+        <button class="course-nav next" onclick="scrollCourses('next')">
+          <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
     </div>
   </section>
@@ -1323,42 +1215,50 @@
         <h2>Tại sao chọn iViettech?</h2>
         <p>Những lợi thế vượt trội giúp bạn thành công trong sự nghiệp CNTT</p>
       </div>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-users"></i></div>
-          <h3 class="feature-title">Giảng viên giàu kinh nghiệm</h3>
-          <p class="feature-desc">Đội ngũ giảng viên có nhiều năm kinh nghiệm thực tế trong các dự án lớn, truyền đạt kiến thức một cách dễ hiểu và thực tế.</p>
-        </div>
+      <div class="features-container">
+        <button class="features-nav prev" onclick="scrollFeatures('prev')">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="features-scroll" id="featuresScroll">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-users"></i></div>
+            <h3 class="feature-title">Giảng viên giàu kinh nghiệm</h3>
+            <p class="feature-desc">Đội ngũ giảng viên có nhiều năm kinh nghiệm thực tế trong các dự án lớn, truyền đạt kiến thức một cách dễ hiểu và thực tế.</p>
+          </div>
 
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-laptop-code"></i></div>
-          <h3 class="feature-title">Thực hành dự án thực tế</h3>
-          <p class="feature-desc">Học viên được thực hiện các dự án thực tế trong quá trình học, giúp tích lũy kinh nghiệm và portfolio ấn tượng.</p>
-        </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-laptop-code"></i></div>
+            <h3 class="feature-title">Thực hành dự án thực tế</h3>
+            <p class="feature-desc">Học viên được thực hiện các dự án thực tế trong quá trình học, giúp tích lũy kinh nghiệm và portfolio ấn tượng.</p>
+          </div>
 
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-handshake"></i></div>
-          <h3 class="feature-title">Hỗ trợ tìm việc làm</h3>
-          <p class="feature-desc">Cam kết hỗ trợ tìm việc làm sau khi tốt nghiệp với mạng lưới doanh nghiệp đối tác rộng khắp.</p>
-        </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-handshake"></i></div>
+            <h3 class="feature-title">Hỗ trợ tìm việc làm</h3>
+            <p class="feature-desc">Cam kết hỗ trợ tìm việc làm sau khi tốt nghiệp với mạng lưới doanh nghiệp đối tác rộng khắp.</p>
+          </div>
 
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-clock"></i></div>
-          <h3 class="feature-title">Lịch học linh hoạt</h3>
-          <p class="feature-desc">Đa dạng khung giờ học phù hợp với học viên đi làm: sáng, chiều, tối và cuối tuần.</p>
-        </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-clock"></i></div>
+            <h3 class="feature-title">Lịch học linh hoạt</h3>
+            <p class="feature-desc">Đa dạng khung giờ học phù hợp với học viên đi làm: sáng, chiều, tối và cuối tuần.</p>
+          </div>
 
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-tools"></i></div>
-          <h3 class="feature-title">Trang thiết bị hiện đại</h3>
-          <p class="feature-desc">Phòng học được trang bị máy tính cấu hình cao, màn hình lớn và các công cụ hỗ trợ học tập tốt nhất.</p>
-        </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-tools"></i></div>
+            <h3 class="feature-title">Trang thiết bị hiện đại</h3>
+            <p class="feature-desc">Phòng học được trang bị máy tính cấu hình cao, màn hình lớn và các công cụ hỗ trợ học tập tốt nhất.</p>
+          </div>
 
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-certificate"></i></div>
-          <h3 class="feature-title">Chứng chỉ uy tín</h3>
-          <p class="feature-desc">Cấp chứng chỉ hoàn thành khóa học được các doanh nghiệp trong ngành công nhận và đánh giá cao.</p>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-certificate"></i></div>
+            <h3 class="feature-title">Chứng chỉ uy tín</h3>
+            <p class="feature-desc">Cấp chứng chỉ hoàn thành khóa học được các doanh nghiệp trong ngành công nhận và đánh giá cao.</p>
+          </div>
         </div>
+        <button class="features-nav next" onclick="scrollFeatures('next')">
+          <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
     </div>
   </section>
@@ -1414,72 +1314,7 @@
     </div>
   </section>
 
-  <!-- Notice Board -->
-  <section class="notice-board" id="notices">
-    <div class="container">
-      <div class="notice-container">
-        <div class="notice-header">
-          <div class="notice-icon">
-            <i class="fas fa-bullhorn"></i>
-          </div>
-          <h3>Bảng thông báo</h3>
-        </div>
-        <div class="notice-scroll">
-          <a href="#" class="notice-item">
-            <div class="notice-title">🤝 Agribank Nam Đà Nẵng hợp tác cùng iViettech đẩy mạnh chuyển đổi số bằng AI</div>
-            <div class="notice-date">
-              <i class="fas fa-calendar"></i> 22/07/2025
-              <span class="notice-priority priority-new">MỚI NHẤT</span>
-            </div>
-          </a>
-          <a href="#" class="notice-item">
-            <div class="notice-title">🎓 Khai giảng lớp Web Development batch mới - Còn 5 suất cuối</div>
-            <div class="notice-date">
-              <i class="fas fa-calendar"></i> 20/07/2025
-              <span class="notice-priority priority-high">HOT</span>
-            </div>
-          </a>
-          <a href="#" class="notice-item">
-            <div class="notice-title">💼 Workshop "Cách viết CV và phỏng vấn xin việc thành công"</div>
-            <div class="notice-date">
-              <i class="fas fa-calendar"></i> 18/07/2025
-            </div>
-          </a>
-          <a href="#" class="notice-item">
-            <div class="notice-title">🏆 Chúc mừng 15 học viên khóa Java đã tìm được việc làm</div>
-            <div class="notice-date">
-              <i class="fas fa-calendar"></i> 15/07/2025
-            </div>
-          </a>
-          <a href="#" class="notice-item">
-            <div class="notice-title">📱 Mở đăng ký khóa học React Native - Phát triển ứng dụng di động</div>
-            <div class="notice-date">
-              <i class="fas fa-calendar"></i> 12/07/2025
-            </div>
-          </a>
-          <a href="#" class="notice-item">
-            <div class="notice-title">🎯 Hội thảo "Xu hướng công nghệ 2025 và cơ hội việc làm"</div>
-            <div class="notice-date">
-              <i class="fas fa-calendar"></i> 10/07/2025
-            </div>
-          </a>
-          <a href="#" class="notice-item">
-            <div class="notice-title">📊 Khảo sát mức độ hài lòng của học viên - Kết quả 98% hài lòng</div>
-            <div class="notice-date">
-              <i class="fas fa-calendar"></i> 08/07/2025
-            </div>
-          </a>
-          <a href="#" class="notice-item">
-            <div class="notice-title">🔥 Flash Sale - Giảm 30% học phí cho 20 học viên đầu tiên đăng ký</div>
-            <div class="notice-date">
-              <i class="fas fa-calendar"></i> 05/07/2025
-              <span class="notice-priority priority-high">KHUYẾN MÃI</span>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+
 
   <!-- Footer -->
   <footer class="footer" id="contact">
@@ -1627,7 +1462,6 @@
     function openModal() {
       document.getElementById('loginModal').style.display = 'block';
       document.getElementById('roleSelection').style.display = 'block';
-      document.getElementById('loginForm').classList.remove('show');
     }
 
     function closeModal() {
@@ -1641,7 +1475,6 @@
         card.classList.remove('active');
       });
       document.getElementById('roleSelection').style.display = 'block';
-      document.getElementById('loginForm').classList.remove('show');
     }
 
     function selectRole(role) {
@@ -1651,50 +1484,26 @@
       });
       document.querySelector(`.${role}-card`).classList.add('active');
 
+      // Redirect to appropriate login page based on role
       setTimeout(() => {
-        document.getElementById('roleSelection').style.display = 'none';
-        document.getElementById('loginForm').classList.add('show');
-        document.getElementById('loginSubmit').className = `login-submit ${role}`;
+        let loginUrl = '';
+        switch (role) {
+          case 'student':
+            loginUrl = 'user/login.php';
+            break;
+          case 'teacher':
+            loginUrl = 'teacher/login.php';
+            break;
+          case 'admin':
+            loginUrl = 'admin/login.php';
+            break;
+        }
 
-        const roleNames = {
-          student: 'Học viên',
-          teacher: 'Giảng viên',
-          admin: 'Quản trị viên'
-        };
-
-        document.querySelector('.modal-header h2').textContent = `Đăng nhập ${roleNames[role]}`;
-      }, 300);
+        if (loginUrl) {
+          window.location.href = loginUrl;
+        }
+      }, 500);
     }
-
-    function backToRoleSelection() {
-      document.getElementById('loginForm').classList.remove('show');
-      setTimeout(() => {
-        document.getElementById('roleSelection').style.display = 'block';
-        document.querySelector('.modal-header h2').textContent = 'Đăng nhập hệ thống';
-      }, 300);
-    }
-
-    // Form submission
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-
-      if (username && password) {
-        // Simulate login process
-        const roleNames = {
-          student: 'Học viên',
-          teacher: 'Giảng viên',
-          admin: 'Quản trị viên'
-        };
-
-        alert(`Đăng nhập thành công với vai trò: ${roleNames[selectedRole]}\nChào mừng bạn đến với hệ thống quản lý iViettech!`);
-        closeModal();
-
-        // Here you would normally redirect to the appropriate dashboard
-        // window.location.href = `/dashboard/${selectedRole}`;
-      }
-    });
 
     // Close modal when clicking outside
     window.addEventListener('click', function(e) {
@@ -1704,25 +1513,33 @@
       }
     });
 
-    // Course cards hover effect
-    function addCourseHoverEffects() {
-      const courseCards = document.querySelectorAll('.course-card');
-      courseCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateY(-10px) scale(1.02)';
-        });
+    // Horizontal scroll functions
+    function scrollCourses(direction) {
+      const container = document.getElementById('coursesScroll');
+      const scrollAmount = 370; // width of one card plus gap
 
-        card.addEventListener('mouseleave', function() {
-          this.style.transform = 'translateY(0) scale(1)';
-        });
-      });
+      if (direction === 'prev') {
+        container.scrollLeft -= scrollAmount;
+      } else {
+        container.scrollLeft += scrollAmount;
+      }
+    }
+
+    function scrollFeatures(direction) {
+      const container = document.getElementById('featuresScroll');
+      const scrollAmount = 370; // width of one card plus gap
+
+      if (direction === 'prev') {
+        container.scrollLeft -= scrollAmount;
+      } else {
+        container.scrollLeft += scrollAmount;
+      }
     }
 
     // Initialize animations and effects
     document.addEventListener('DOMContentLoaded', function() {
       createParticles();
       animateStats();
-      addCourseHoverEffects();
 
       // Intersection Observer for fade-in animations
       const observerOptions = {
@@ -1741,7 +1558,7 @@
       }, observerOptions);
 
       // Observe elements for animation
-      document.querySelectorAll('.feature-card, .course-card, .testimonial-card, .notice-container').forEach(el => {
+      document.querySelectorAll('.feature-card, .course-card, .testimonial-card').forEach(el => {
         observer.observe(el);
       });
 
