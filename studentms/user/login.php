@@ -81,7 +81,7 @@ if (isset($_POST['login'])) {
       font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.6;
       color: var(--text-primary);
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #8f8f8fff;
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -97,7 +97,7 @@ if (isset($_POST['login'])) {
       width: 100%;
       height: 100%;
       z-index: -1;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      background: #8f8f8fff;
     }
 
 

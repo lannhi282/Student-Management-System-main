@@ -14,8 +14,8 @@
     }
 
     :root {
-      --primary-color: #2563eb;
-      --secondary-color: #0ea5e9;
+      --primary-color: #c03438ff;
+      --secondary-color: #c03438ff;
       --accent-color: #f59e0b;
       --success-color: #10b981;
       --danger-color: #ef4444;
@@ -28,14 +28,24 @@
       --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     }
 
-    body {
+    /* body {
       font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.6;
       color: var(--text-primary);
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
+    } */
+    body {
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.4;
+      color: var(--text-primary);
+      background: #c03438ff;
+      /* màu đỏ rượu */
+      min-height: 100vh;
     }
 
+    /* Particles Background */
+    /* Particles Background */
     /* Particles Background */
     .particles-bg {
       position: fixed;
@@ -44,7 +54,7 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      background: #c03438ff;
     }
 
     .particle {
@@ -101,16 +111,19 @@
       transform: scale(1.05);
     }
 
+
     .logo-icon {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-size: 1.2rem;
+    }
+
+    .logo-icon img {
+      height: 50px;
+      /* chỉnh kích thước logo ở đây */
+      width: auto;
+      /* tự co theo tỉ lệ */
+      display: block;
     }
 
     .nav-menu {
@@ -165,14 +178,18 @@
       color: white;
       position: relative;
       padding: 0 2rem;
+      box-sizing: border-box;
     }
 
     .hero-content {
       max-width: 1000px;
       z-index: 2;
       animation: fadeInUp 1s ease;
+      padding-top: 80px;
+      /* ✅ thêm khoảng cách để badge không bị cắt */
     }
 
+    /* 
     .hero-badge {
       display: inline-flex;
       align-items: center;
@@ -181,20 +198,33 @@
       backdrop-filter: blur(10px);
       padding: 0.5rem 1rem;
       border-radius: 50px;
-      font-size: 0.9rem;
-      margin-bottom: 2rem;
+      font-size: 0.95rem;
+      margin: 1rem 0 2rem 0;
       border: 1px solid rgba(255, 255, 255, 0.3);
-    }
+      white-space: nowrap;
+    } */
 
+    /* 
     .hero h1 {
       font-size: 4rem;
-      font-weight: 900;
+      font-weight: 500;
       margin-bottom: 1.5rem;
       line-height: 1.1;
       background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+    } */
+
+    .hero-logo {
+      max-width: 300px;
+      /* điều chỉnh kích thước logo */
+      width: 20vw;
+      min-width: 230px;
+      height: auto;
+      margin: 1rem auto 2rem auto;
+      /* căn giữa và tạo khoảng cách */
+      display: block;
     }
 
     .hero-subtitle {
@@ -234,8 +264,10 @@
     }
 
     .cta-primary {
-      background: linear-gradient(135deg, #f59e0b, #f97316);
+      background: rgba(255, 255, 255, 0.2);
       color: white;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
     .cta-secondary {
@@ -261,10 +293,14 @@
       height: 100%;
       background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(5px);
+
+      /* Cho phép cuộn nếu nội dung modal dài hơn màn hình */
+      overflow-y: auto;
     }
 
+
     .modal-content {
-      position: absolute;
+      position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -275,6 +311,9 @@
       max-width: 500px;
       box-shadow: var(--shadow-lg);
       animation: modalSlideIn 0.3s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+      /* nếu quá cao sẽ có scroll */
     }
 
     .modal-header {
@@ -355,7 +394,7 @@
     }
 
     .student-card .role-icon {
-      background: linear-gradient(135deg, var(--secondary-color), #06b6d4);
+      background: linear-gradient(135deg, #06b6d4);
     }
 
     .teacher-card .role-icon {
@@ -417,7 +456,7 @@
 
     /* Course Section with Horizontal Scroll */
     .courses {
-      padding: 8rem 2rem;
+      padding: 4rem 1rem;
       background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     }
 
@@ -443,7 +482,7 @@
     }
 
     .section-header h2 {
-      font-size: 3rem;
+      font-size: 2.3rem;
       font-weight: 900;
       color: var(--text-primary);
       margin-bottom: 1rem;
@@ -608,7 +647,7 @@
 
     /* Features Section with Horizontal Scroll */
     .features {
-      padding: 8rem 2rem;
+      padding: 4rem 1rem;
       background: white;
     }
 
@@ -733,7 +772,7 @@
 
     /* Testimonials Section */
     .testimonials {
-      padding: 8rem 2rem;
+      padding: 4rem 1rem;
       background: white;
     }
 
@@ -809,19 +848,22 @@
 
     /* Footer */
     .footer {
-      background: var(--dark-color);
+      background: #c03438ff;
       color: white;
-      padding: 4rem 2rem 2rem;
+      padding: 1.5rem 2rem 0.5rem;
     }
 
     .footer-content {
-      max-width: 1400px;
+      max-width: 1200px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 3rem;
-      margin-bottom: 3rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      /* giảm khoảng cách giữa các cột */
+      margin-bottom: 1.5rem;
+      /* giảm khoảng cách phía dưới */
     }
+
 
     .footer-section h3 {
       font-size: 1.2rem;
@@ -830,12 +872,21 @@
       color: white;
     }
 
+    .footer-logo img {
+      width: 180px;
+      height: auto;
+      display: block;
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+
     .footer-section p,
     .footer-section a {
-      color: #9ca3af;
+      color: #f0f1f2ff;
       line-height: 1.7;
       text-decoration: none;
       transition: color 0.3s ease;
+      font-size: 0.9rem;
     }
 
     .footer-section a:hover {
@@ -855,13 +906,16 @@
       align-items: center;
       gap: 0.5rem;
       margin-bottom: 0.5rem;
+      font-size: 0.9rem;
     }
 
     .footer-bottom {
-      border-top: 1px solid #374151;
-      padding-top: 2rem;
+      border-top: 1px solid #f0f1f2ff;
+      padding: 0.5rem 0;
       text-align: center;
-      color: #9ca3af;
+      color: #f0f1f2ff;
+      font-size: 0.9rem;
+      /* chữ nhỏ gọn hơn */
     }
 
     .social-links {
@@ -871,9 +925,9 @@
     }
 
     .social-link {
-      width: 40px;
-      height: 40px;
-      background: #374151;
+      width: 60px;
+      height: 60px;
+      /* background: #f0f1f2ff; */
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -996,22 +1050,25 @@
     <div class="nav-container">
       <a href="#" class="logo">
         <div class="logo-icon">
-          <i class="fas fa-laptop-code"></i>
+          <img src="images/logo_tt.png" alt="iViettech Logo">
         </div>
-        iViettech
       </a>
       <nav>
         <ul class="nav-menu">
           <li><a href="#home" class="nav-link">Trang chủ</a></li>
           <li><a href="#courses" class="nav-link">Khóa học</a></li>
-          <li><a href="#features" class="nav-link">Ưu điểm</a></li>
-          <li><a href="#testimonials" class="nav-link">Học viên</a></li>
+          <li><a href="#features" class="nav-link">Nổi bật</a></li>
+          <li><a href="#testimonials" class="nav-link">Đánh giá</a></li>
           <li><a href="#contact" class="nav-link">Liên hệ</a></li>
+          <button class="login-btn" onclick="openModal()">
+            <i class="fas fa-sign-in-alt"></i>
+            Đăng nhập
+          </button>
         </ul>
-        <button class="login-btn" onclick="openModal()">
+        <!-- <button class="login-btn" onclick="openModal()">
           <i class="fas fa-sign-in-alt"></i>
           Đăng nhập
-        </button>
+        </button> -->
       </nav>
     </div>
   </header>
@@ -1051,11 +1108,12 @@
   <!-- Hero Section -->
   <section class="hero" id="home">
     <div class="hero-content">
-      <div class="hero-badge">
+      <!-- <div class="hero-badge">
         <i class="fas fa-award"></i>
         <span>Trung tâm đào tạo CNTT hàng đầu Đà Nẵng</span>
-      </div>
-      <h1>iViettech</h1>
+      </div> -->
+      <!-- <h1>iViettech</h1> -->
+      <img src="images/logo-white.png" alt="iViettech" class="hero-logo">
       <div class="hero-subtitle">Trung tâm Đào tạo Công nghệ Thông tin</div>
       <p>Chúng tôi đào tạo lập trình viên chuyên nghiệp với kiến thức thực tế, đội ngũ giảng viên giàu kinh nghiệm và chương trình học cập nhật. Cam kết hỗ trợ tìm việc làm sau khi tốt nghiệp với tỷ lệ thành công cao.</p>
       <div class="cta-buttons">
@@ -1069,35 +1127,13 @@
     </div>
   </section>
 
-  <!-- Stats Section -->
-  <section class="stats">
-    <div class="stats-grid">
-      <div class="stat-item">
-        <div class="stat-number" data-target="1000">0</div>
-        <div class="stat-label">Học viên đã tốt nghiệp</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number" data-target="15">0</div>
-        <div class="stat-label">Năm kinh nghiệm</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number" data-target="95">0</div>
-        <div class="stat-label">% Có việc làm sau tốt nghiệp</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number" data-target="50">0</div>
-        <div class="stat-label">Doanh nghiệp đối tác</div>
-      </div>
-    </div>
-  </section>
 
   <!-- Courses Section -->
   <section class="courses" id="courses">
     <div class="container">
       <div class="section-header">
-        <div class="section-badge">Khóa học nổi bật</div>
-        <h2>Chương trình đào tạo</h2>
-        <p>Các khóa học được thiết kế phù hợp với nhu cầu thực tế của doanh nghiệp</p>
+        <h2>Khoá học nổi bật</h2>
+        <p>Các khóa học được thiết kế phù hợp với nhu cầu của doanh nghiệp</p>
       </div>
       <div class="courses-container">
         <button class="course-nav prev" onclick="scrollCourses('prev')">
@@ -1107,7 +1143,7 @@
           <div class="course-card">
             <div class="course-icon"><i class="fab fa-html5"></i></div>
             <h3 class="course-title">Web Development</h3>
-            <p class="course-desc">Học lập trình web từ cơ bản đến nâng cao với HTML, CSS, JavaScript, PHP, MySQL</p>
+            <p class="course-desc">Học lập trình web từ cơ bản đến nâng cao với HTML, CSS, JavaScript, PHP</p>
             <ul class="course-features">
               <li><i class="fas fa-check-circle"></i> HTML5, CSS3, JavaScript ES6+</li>
               <li><i class="fas fa-check-circle"></i> PHP & MySQL</li>
@@ -1187,7 +1223,7 @@
           <div class="course-card">
             <div class="course-icon"><i class="fas fa-shield-alt"></i></div>
             <h3 class="course-title">Cyber Security</h3>
-            <p class="course-desc">An toàn thông tin và bảo mật hệ thống</p>
+            <p class="course-desc">An toàn thông tin và bảo mật hệ thống thống tin</p>
             <ul class="course-features">
               <li><i class="fas fa-check-circle"></i> Network Security</li>
               <li><i class="fas fa-check-circle"></i> Ethical Hacking</li>
@@ -1211,7 +1247,7 @@
   <section class="features" id="features">
     <div class="container">
       <div class="section-header">
-        <div class="section-badge">Ưu điểm nổi bật</div>
+
         <h2>Tại sao chọn iViettech?</h2>
         <p>Những lợi thế vượt trội giúp bạn thành công trong sự nghiệp CNTT</p>
       </div>
@@ -1263,18 +1299,39 @@
     </div>
   </section>
 
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number" data-target="1000">0</div>
+        <div class="stat-label">Học viên đã tốt nghiệp</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="15">0</div>
+        <div class="stat-label">Năm kinh nghiệm</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="95">0</div>
+        <div class="stat-label">% Có việc làm sau tốt nghiệp</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="50">0</div>
+        <div class="stat-label">Doanh nghiệp đối tác</div>
+      </div>
+    </div>
+  </section>
+
   <!-- Testimonials Section -->
   <section class="testimonials" id="testimonials">
     <div class="container">
       <div class="section-header">
-        <div class="section-badge">Học viên nói gì về chúng tôi</div>
         <h2>Câu chuyện thành công</h2>
         <p>Những chia sẻ chân thực từ học viên đã thành công sau khi tốt nghiệp tại iViettech</p>
       </div>
       <div class="testimonials-grid">
         <div class="testimonial-card">
           <div class="testimonial-quote">
-            Trung tâm iViettech là lựa chọn hợp lý cho các bạn muốn theo đuổi ngành CNTT. Trung tâm có đội ngũ giảng viên có chuyên môn, có kinh nghiệm và rất nhiệt tình trong quá trình giảng dạy. Ngoài ra, trung tâm còn có chế độ hỗ trợ tìm việc làm sau khi tốt nghiệp rất tốt.
+            Trung tâm iViettech là lựa chọn hợp lý cho các bạn muốn theo đuổi ngành CNTT. Trung tâm có đội ngũ giảng viên có chuyên môn, có nhiều năm kinh nghiệm và rất nhiệt tình trong quá trình giảng dạy. Ngoài ra, trung tâm còn có chế độ hỗ trợ cách viết CV hiệu quả khi xin việc và hỗ trợ tìm việc làm sau khi tốt nghiệp rất tốt.
           </div>
           <div class="testimonial-author">
             <div class="author-avatar">HV1</div>
@@ -1300,7 +1357,7 @@
 
         <div class="testimonial-card">
           <div class="testimonial-quote">
-            Trung tâm iViettech là lựa chọn hợp lý cho các bạn đang muốn theo đuổi ngành CNTT. Trung tâm có đội ngũ giảng viên chuyên môn cao, nhiệt tình chỉ dạy cho học viên. Kiến thức giảng dạy bám sát thực tế. Bên cạnh việc giảng dạy thì trung tâm cũng có những buổi ngoại khóa tham quan các công ty phần mềm, giúp học viên được tham quan môi trường làm việc.
+            Trung tâm iViettech là lựa chọn hợp lý cho các bạn đang muốn theo đuổi ngành CNTT. Trung tâm có đội ngũ giảng viên chuyên môn cao, nhiệt tình chỉ dạy cho học viên. Kiến thức giảng dạy bám sát thực tế. Ngoài ra trung tâm cũng có những buổi ngoại khóa tham quan các công ty phần mềm, giúp học viên được tham quan môi trường làm việc.
           </div>
           <div class="testimonial-author">
             <div class="author-avatar">HV3</div>
@@ -1320,12 +1377,15 @@
   <footer class="footer" id="contact">
     <div class="footer-content">
       <div class="footer-section">
-        <h3>Trung tâm iViettech</h3>
-        <p>Trung tâm đào tạo lập trình chuyên nghiệp tại Đà Nẵng. Chúng tôi cam kết mang đến chất lượng giảng dạy tốt nhất và hỗ trợ học viên tìm được việc làm ưng ý sau khi tốt nghiệp.</p>
+        <!-- <h3>Trung tâm iViettech</h3> -->
+        <a href="index.php" class="footer-logo">
+          <img src="images/logo-white.png" alt="iViettech Logo">
+        </a>
+        <p>Trung tâm đào tạo lập trình chuyên nghiệp tại Đà Nẵng. Chúng tôi cam kết mang đến chất lượng giảng dạy tốt nhất và hỗ trợ học viên tìm được việc làm sau khi tốt nghiệp.</p>
         <div class="social-links">
           <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
           <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-          <a href="#" class="social-link"><i class="fab fa-zalo"></i></a>
+          <!-- <a href="#" class="social-link"><i class="fab fa-zalo"></i></a> -->
           <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
         </div>
       </div>
@@ -1337,12 +1397,12 @@
           <li><a href="#">Lập trình Mobile</a></li>
           <li><a href="#">Data Science & AI</a></li>
           <li><a href="#">Java Programming</a></li>
-          <li><a href="#">Full-stack JavaScript</a></li>
+          <!-- <li><a href="#">Full-stack JavaScript</a></li> -->
           <li><a href="#">Cyber Security</a></li>
         </ul>
       </div>
 
-      <div class="footer-section">
+      <!-- <div class="footer-section">
         <h3>Hỗ trợ</h3>
         <ul class="footer-links">
           <li><a href="#">Tư vấn khóa học</a></li>
@@ -1351,7 +1411,7 @@
           <li><a href="#">Câu hỏi thường gặp</a></li>
           <li><a href="#">Chính sách bảo mật</a></li>
         </ul>
-      </div>
+      </div> -->
 
       <div class="footer-section">
         <h3>Liên hệ</h3>
@@ -1375,8 +1435,7 @@
     </div>
 
     <div class="footer-bottom">
-      <p>&copy; 2025 iViettech - Trung tâm Đào tạo Công nghệ Thông tin. Tất cả quyền được bảo lưu.</p>
-      <p>Địa chỉ: 92 Quang Trung, Hải Châu, Đà Nẵng | Hotline: 0236.3.888.130</p>
+      <p>&copy; Bản quyền thuộc về iViettech © 2022.</p>
     </div>
   </footer>
 

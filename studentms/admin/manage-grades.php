@@ -115,8 +115,8 @@ if (strlen($_SESSION['sturecmsaid']) == 0) {
                                                         <th class="font-weight-bold">Loại điểm</th>
                                                         <th class="font-weight-bold">Điểm</th>
                                                         <th class="font-weight-bold">Giáo viên</th>
-                                                        <th class="font-weight-bold">Ngày thi</th>
-                                                        <th class="font-weight-bold">Ghi chú</th>
+                                                        <!-- <th class="font-weight-bold">Ngày thi</th>
+                                                        <th class="font-weight-bold">Ghi chú</th> -->
                                                         <th class="font-weight-bold">Thao tác</th>
                                                     </tr>
                                                 </thead>
@@ -156,8 +156,7 @@ if (strlen($_SESSION['sturecmsaid']) == 0) {
                                                                     </span>
                                                                 </td>
                                                                 <td><?php echo htmlentities($row->TeacherName); ?></td>
-                                                                <td><?php echo htmlentities($row->ExamDate); ?></td>
-                                                                <td><?php echo htmlentities($row->Remarks); ?></td>
+
                                                                 <td>
                                                                     <a href="manage-grades.php?delid=<?php echo ($row->ID); ?>" onclick="return confirm('Bạn có chắc muốn xóa điểm này?');" class="btn btn-sm btn-danger">Xóa</a>
                                                                 </td>
